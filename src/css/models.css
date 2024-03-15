@@ -1,0 +1,15 @@
+.dark-modal-content {
+    background-color: #343a40;
+    /* Dark background color */
+    color: white;
+    /* Text color */
+}
+
+.dark-modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.custom-modal-dialog {
+    max-width: 600px;
+    /* Set the maximum width of the modal dialog */
+}
