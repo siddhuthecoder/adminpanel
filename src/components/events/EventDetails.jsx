@@ -7,6 +7,7 @@ import Edit from './EditEvent'
 
 import { MdKeyboardBackspace } from "react-icons/md";
 import { GrNext } from "react-icons/gr";
+import DeleteEvent from './DeleteEvent'
 
 
 
@@ -18,7 +19,7 @@ const EventDetails = () => {
     const [eveInfo, setEveInfo] = useState({})
     const [loading, setLoading] = useState(true)
     const { id } = useParams()
-
+    console.log(id);
     useEffect(() => {
         const info = JSON.parse(localStorage.getItem("data"))
         setToken(info.token)
@@ -29,7 +30,7 @@ const EventDetails = () => {
     const fetchData = async () => {
 
         try {
-            const responseData = await axios.get(`http://localhost:3001/admin/events/event/${id}`, {
+            const responseData = await axios.get(`https://teckzitebackend.onrender.com/events/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": ` Bearer ${token}`,
@@ -97,12 +98,13 @@ const EventDetails = () => {
                         <div className="w-100 d-flex align-items-center text-white">
                             <div className={` px-3 ${tab == "About" ? "tab-active" : ""} `} onClick={() => setTab("About")}>About</div>
                             <div className={` px-3 ${tab == "Edit" ? "tab-active" : ""} `} onClick={() => setTab("Edit")}>Edit</div>
-                            <div className={` px-3 ${tab == "SendMail" ? "tab-active" : ""} `} onClick={() => setTab("SendMail")}>Send Mail</div>
+                            <div className={` px-3 ${tab == "Delete" ? "tab-active" : ""} `} onClick={() => setTab("Delete")}>Delete</div>
                         </div>
                         <hr style={{ color: "grey", fontWeight: "700", marginTop: "2px", }} />
                         <div className="section w-100 " style={{ height: "70vh", overflow: "scroll" }}>
                             {tab == "About" && <AboutEvent data={eveInfo} />}
                             {tab == "Edit" && <Edit data={eveInfo} />}
+                            {tab == "Delete" && <DeleteEvent />}
                         </div>
                     </div>
                 </div>

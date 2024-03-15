@@ -4,12 +4,11 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 
-const Edit = () => {
+const AddEvent = () => {
   const [token, setToken] = useState("");
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const { id } = useParams();
   const [edit, setEdit] = useState({
     name: eveInfo.name,
     dep: "",
@@ -27,34 +26,9 @@ const Edit = () => {
     setToken(info.token);
   }, []);
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const responseData = await axios.get(
-        `https://teckzitebackend.onrender.com/events/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${token}`,
-          },
-        }
-      );
-      setEdit(responseData.data);
-      setEveInfo(responseData.data);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [token]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     switch (name) {
       case "name":
         setEdit({
@@ -120,8 +94,8 @@ const Edit = () => {
     e.preventDefault();
     setIsSubmit(true);
     try {
-      const response2 = await axios.put(
-        `https://teckzitebackend.onrender.com/events/edit-event/${id}`,
+      const response2 = await axios.post(
+        `https://teckzitebackend.onrender.com/events/new`,
         edit,
         {
           headers: {
@@ -130,10 +104,10 @@ const Edit = () => {
           },
         }
       );
-      toast.success("successfully modified",{theme:"colored"});
+      toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
-      toast.error("Failed to Modify",{theme:"colored"})
-      console.error("Error updating event data:", error);
+      toast.error("Failed to add", { theme: "colored" });
+      console.error("Error Adding new event data:", error);
     }
     setIsSubmit(false);
   };
@@ -148,9 +122,7 @@ const Edit = () => {
             className=""
             onSubmit={handleSubmit}
             style={{
-              width: "97%",
-              maxWidth: "400px",
-              height: "90vh",
+              width: "100%",
               overflowY: "scroll",
               backgroundColor: "rgb(33, 37, 41)",
               margin: "auto",
@@ -360,4 +332,4 @@ const Edit = () => {
     </>
   );
 };
-export default Edit;
+export default AddEvent;

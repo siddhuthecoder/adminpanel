@@ -7,6 +7,7 @@ import ViewClientPdf from './components/ViewClientPdf'
 import PDFViewer from './components/PdfViewer'
 import EventDetails from './components/events/EventDetails'
 import WorkshopDetails from './components/workshops/WorkShopDetails'
+import AddEvent from './components/events/AddEvent'
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/clients/:clientId' element={<ClientDetails />} />
       <Route path="/clients/pdf/:pdfUrl" element={<ViewClientPdf />} />
       <Route path="/pdf/:pdfUrl2" element={<PDFViewer />} />
+      <Route path="/events/add-event" element={<AddEvent />} />
       <Route path="/events/:id" element={<EventDetails />} />
       <Route path="workshops/:id" element={<WorkshopDetails />} />
     </Routes>
