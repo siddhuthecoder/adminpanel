@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react'
-import AboutEvent from './AboutEvent'
+
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
-import Edit from './EditEvent'
 
 import { MdKeyboardBackspace } from "react-icons/md";
 import { GrNext } from "react-icons/gr";
-import DeleteEvent from './DeleteEvent'
+import AboutNotification from './AboutNotification';
+import EditNotification from './EditNotification';
+import DeleteNotification from './DeleteNotification';
 
 
 
 
-const EventDetails = () => {
+const NotificationDetails = () => {
 
     const [tab, setTab] = useState("About")
     const [token, setToken] = useState("")
-    const [eveInfo, setEveInfo] = useState({})
-    const [loading, setLoading] = useState(true)
+    const [noticInfo, setNoticInfo] = useState({})
+    const [loading, setLoading] = useState(false)
     const { id } = useParams()
     console.log(id);
     useEffect(() => {
@@ -27,22 +28,23 @@ const EventDetails = () => {
 
 
     const fetchData = async () => {
-
+        setLoading(true)
         try {
-            const responseData = await axios.get(`https://teckzitebackend.onrender.com/events/${id}`, {
+            const responseData = await axios.get(`https://teckzitebackend.onrender.com/notifications/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": ` Bearer ${token}`,
                 }
             })
-            setEveInfo(responseData.data)
-            console.log(eveInfo)
+            setNoticInfo(responseData.data)
+            console.log(noticInfo)
             setLoading(false)
 
         }
         catch (err) {
             console.log(err)
         }
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -79,17 +81,17 @@ const EventDetails = () => {
                     <div className="h2 text-white px-2" >TECKZITE</div>
                 </div>
                 <div className="w-100 mt-5  d-flex align-items-center">
-                    <div className="h3 ms-3 text-white ">Events</div>
+                    <div className="h3 ms-3 text-white ">Notifications</div>
                     <GrNext className=" h4 text-primary" />
-                    <div className="h3 me-1 text-white">{eveInfo.eveName}</div>
+                    <div className="h3 me-1 text-white">{noticInfo.heading}</div>
                 </div>
                 <div className="w-100 row mx-auto">
                     <div className="col-11 col-md-6 col-lg-4 mx-auto py-4 my-3 d-flex flex-column" style={{
                         backgroundColor: "black",
                         maxHeight: "300px"
                     }}>
-                        <img src={eveInfo.img} alt="" className=" mx-auto mt-2" style={{ width: "95%", borderRadius: "4px", height: "100%" }} />
-                        <div className="text-center py-3 h1 " style={{ color: "#006996" }} >{eveInfo.eveName}</div>
+                        <img src={noticInfo.picturePath} alt="" className=" mx-auto mt-2" style={{ width: "95%", borderRadius: "4px", height: "100%" }} />
+                        <div className="text-center py-3 h1 " style={{ color: "#006996" }} >{noticInfo.heading}</div>
                     </div>
                     <div className="col-11 col-md-6 my-3 py-4 col-lg-7 mx-auto" style={{
                         backgroundColor: "black",
@@ -101,9 +103,9 @@ const EventDetails = () => {
                         </div>
                         <hr style={{ color: "grey", fontWeight: "700", marginTop: "2px", }} />
                         <div className="section w-100 " style={{ height: "70vh", overflow: "scroll" }}>
-                            {tab == "About" && <AboutEvent data={eveInfo} />}
-                            {tab == "Edit" && <Edit data={eveInfo} />}
-                            {tab == "Delete" && <DeleteEvent />}
+                            {tab == "About" && <AboutNotification data={noticInfo} />}
+                            {tab == "Edit" && <EditNotification data={noticInfo} />}
+                            {tab == "Delete" && <DeleteNotification />}
                         </div>
                     </div>
                 </div>
@@ -111,4 +113,4 @@ const EventDetails = () => {
         </>
     )
 }
-export default EventDetails
+export default NotificationDetails;

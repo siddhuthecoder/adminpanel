@@ -3,7 +3,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 
-const AddEvent = () => {
+const AddWorkshops = () => {
   const [token, setToken] = useState("");
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
@@ -11,13 +11,13 @@ const AddEvent = () => {
   const [edit, setEdit] = useState({
     name: eveInfo.name,
     dep: "",
-    img: "",
-    desc: "",
+    about: "",
+    workshopImg: "",
     structure: "",
-    rules: [],
-    registedStudents: [],
-    teamSize: 0,
-    contact_info: "",
+    contact: "",
+    instructorName: "",
+    instructorSpecifications: "",
+    instructorImage: "",
   });
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const AddEvent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     switch (name) {
       case "name":
         setEdit({
@@ -41,16 +40,16 @@ const AddEvent = () => {
           dep: value,
         });
         break;
-      case "img":
+      case "about":
         setEdit({
           ...edit,
-          img: value,
+          about: value,
         });
         break;
-      case "desc":
+      case "workshopImg":
         setEdit({
           ...edit,
-          desc: value,
+          workshopImg: value,
         });
         break;
       case "structure":
@@ -59,28 +58,28 @@ const AddEvent = () => {
           structure: value,
         });
         break;
-      case "rules":
+      case "contact":
         setEdit({
           ...edit,
-          rules: value,
+          contact: value,
         });
         break;
-      case "registedStudents":
+      case "instructorName":
         setEdit({
           ...edit,
-          registedStudents: value,
+          instructorName: value,
         });
         break;
-      case "teamSize":
+      case "instructorSpecifications":
         setEdit({
           ...edit,
-          teamSize: value,
+          instructorSpecifications: value,
         });
         break;
-      case "contact_info":
+      case "instructorImage":
         setEdit({
           ...edit,
-          contact_info: value,
+          instructorImage: value,
         });
         break;
 
@@ -94,7 +93,7 @@ const AddEvent = () => {
     setIsSubmit(true);
     try {
       const response2 = await axios.post(
-        `https://teckzitebackend.onrender.com/events/new`,
+        `https://teckzitebackend.onrender.com/workshops/new`,
         edit,
         {
           headers: {
@@ -103,10 +102,21 @@ const AddEvent = () => {
           },
         }
       );
-      toast.success("successfully Added New Event", { theme: "colored" });
+      setEdit({
+        name: "",
+        dep: "",
+        about: "",
+        workshopImg: "",
+        structure: "",
+        contact: "",
+        instructorName: "",
+        instructorSpecifications: "",
+        instructorImage: "",
+      });
+      toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
-      console.error("Error Adding new event data:", error);
+      console.error("Error Adding new workshop data:", error);
     }
     setIsSubmit(false);
   };
@@ -122,6 +132,7 @@ const AddEvent = () => {
             onSubmit={handleSubmit}
             style={{
               width: "100%",
+              height: "100%",
               overflowY: "scroll",
               backgroundColor: "rgb(33, 37, 41)",
               margin: "auto",
@@ -132,17 +143,17 @@ const AddEvent = () => {
               style={{ marginTop: "100px" }}
             >
               <label
-                htmlFor="eveDepartment"
+                htmlFor="wsname"
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Name
+                Workshop Name
               </label>
               <input
                 className="form-control"
                 type="text"
                 name="name"
-                placeholder="Enter department"
+                placeholder="Enter Workshop Name"
                 value={edit.name}
                 onChange={handleChange}
                 required
@@ -180,18 +191,18 @@ const AddEvent = () => {
 
             <div className="m-3 d-flex flex-column">
               <label
-                htmlFor="eveImg"
+                htmlFor="wsImg"
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image URL
+                Workshop Image URL
               </label>
               <input
                 className="form-control"
                 type="url"
-                name="img"
-                placeholder="Enter event image URL"
-                value={edit.img}
+                name="workshopImg"
+                placeholder="Enter workshop image URL"
+                value={edit.workshopImg}
                 onChange={handleChange}
                 required
                 style={{
@@ -211,10 +222,10 @@ const AddEvent = () => {
                 About
               </label>
               <textarea
-                name="desc"
-                placeholder="Enter event description"
+                name="about"
+                placeholder="Enter workshop description"
                 onChange={handleChange}
-                value={edit.desc}
+                value={edit.about}
                 required
                 style={{
                   backgroundColor: "black",
@@ -235,7 +246,7 @@ const AddEvent = () => {
               </label>
               <textarea
                 name="structure"
-                placeholder="Enter event structure"
+                placeholder="Enter workshop structure"
                 onChange={handleChange}
                 value={edit.structure}
                 required
@@ -247,24 +258,27 @@ const AddEvent = () => {
                 }}
               />
             </div>
+
             <div className="m-3 d-flex flex-column">
               <label
                 htmlFor="rules"
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Rules
+                Instructor Name
               </label>
-              <textarea
-                name="rules"
-                placeholder="Enter event rules"
+              <input
+                className="form-control"
+                type="text"
+                name="instructorName"
+                placeholder="Enter Instructor Name"
+                value={edit.instructorName}
                 onChange={handleChange}
-                value={edit.rules}
                 required
                 style={{
                   backgroundColor: "black",
-                  color: "#FFFFFF",
-                  resize: "none",
+                  color: "white",
+                  fontWeight: "700",
                 }}
               />
             </div>
@@ -275,15 +289,36 @@ const AddEvent = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Team Size
+                Instructor Specifications
+              </label>
+              <textarea
+                name="instructorSpecifications"
+                placeholder="Enter Instructor Specifications"
+                onChange={handleChange}
+                value={edit.instructorSpecifications}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "#FFFFFF",
+                  resize: "none",
+                }}
+              />
+            </div>
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="wsImg"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Instructor Image URL
               </label>
               <input
                 className="form-control"
-                type="number"
-                name="teamSize"
-                placeholder="Enter team size"
+                type="url"
+                name="instructorImage"
+                placeholder="Enter Instructor image URL"
+                value={edit.instructorImage}
                 onChange={handleChange}
-                value={edit.teamSize}
                 required
                 style={{
                   backgroundColor: "black",
@@ -292,7 +327,6 @@ const AddEvent = () => {
                 }}
               />
             </div>
-
             <div className="m-3 d-flex flex-column">
               <label
                 htmlFor="contact_info"
@@ -304,9 +338,9 @@ const AddEvent = () => {
               <input
                 className="form-control"
                 type="text"
-                name="contact_info"
+                name="contact"
                 placeholder="Enter contact information"
-                value={edit.contact_info}
+                value={edit.contact}
                 onChange={handleChange}
                 required
                 style={{
@@ -316,6 +350,7 @@ const AddEvent = () => {
                 }}
               />
             </div>
+
             <div className="m-3 d-flex flex-column">
               <input
                 onClick={handleSubmit}
@@ -331,4 +366,4 @@ const AddEvent = () => {
     </>
   );
 };
-export default AddEvent;
+export default AddWorkshops;

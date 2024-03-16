@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import eve from '../../assets/2109998.jpg'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 
@@ -7,6 +6,8 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import { GrNext } from "react-icons/gr";
 import WorkshopAbout from './About';
 import Instructer from './Instructer';
+import EditWorkShop from './EditWorkShop';
+import DeleteWorkshop from './DeleteWorkshop';
 
 
 
@@ -16,7 +17,7 @@ const WorkshopDetails = () => {
     const [tab, setTab] = useState("About")
     const [token, setToken] = useState("")
     const [workShop, setWorkshop] = useState({})
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const { id } = useParams()
 
     useEffect(() => {
@@ -27,9 +28,9 @@ const WorkshopDetails = () => {
 
 
     const fetchData = async () => {
-
+        setLoading(true);
         try {
-            const responseData = await axios.get(`http://localhost:3001/admin/workshops/${id}`, {
+            const responseData = await axios.get(`https://teckzitebackend.onrender.com/workshops/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": ` Bearer ${token}`,
@@ -37,12 +38,11 @@ const WorkshopDetails = () => {
             })
             setWorkshop(responseData.data)
             console.log(workShop)
-            setLoading(false)
-
         }
         catch (err) {
             console.log(err)
         }
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -81,15 +81,15 @@ const WorkshopDetails = () => {
                 <div className="w-100 mt-5  d-flex align-items-center">
                     <div className="h3 ms-3 text-white py-3 ">Workshops</div>
                     <GrNext className=" h4 text-primary" />
-                    <div className="h3 me-1 text-white">name</div>
+                    <div className="h3 me-1 text-white">{workShop.name}</div>
                 </div>
                 <div className="w-100 row mx-auto">
                     <div className="col-11 col-md-6 col-lg-4 mx-auto py-4 my-3 d-flex flex-column" style={{
                         backgroundColor: "black",
                         maxHeight: "300px"
                     }}>
-                        <img src={eve} alt="" className=" mx-auto mt-2" style={{ width: "95%", borderRadius: "4px", height: "100%" }} />
-                        <div className="text-center py-3 h1 " style={{ color: "#006996" }} >{workShop.workshopName}</div>
+                        <img src={workShop.workshopImg} alt="" className=" mx-auto mt-2" style={{ width: "95%", borderRadius: "4px", height: "100%" }} />
+                        <div className="text-center py-3 h1 " style={{ color: "#006996" }} >{workShop.name}</div>
                     </div>
                     <div className="col-11 col-md-6 my-3 py-4 col-lg-7 mx-auto" style={{
                         backgroundColor: "black",
@@ -98,11 +98,14 @@ const WorkshopDetails = () => {
                             <div className={` px-3 ${tab == "About" ? "tab-active" : ""} `} onClick={() => setTab("About")}>About</div>
                             <div className={` px-3 ${tab == "Edit" ? "tab-active" : ""} `} onClick={() => setTab("Edit")}>Edit</div>
                             <div className={` px-3 ${tab == "Instructer" ? "tab-active" : ""} `} onClick={() => setTab("Instructer")}>Instructer</div>
+                            <div className={` px-3 ${tab == "Delete" ? "tab-active" : ""} `} onClick={() => setTab("Delete")}>Delete</div>
                         </div>
                         <hr style={{ color: "grey", fontWeight: "700", marginTop: "2px", }} />
                         <div className="section w-100 " style={{ height: "70vh", overflow: "scroll" }}>
                             {tab == "About" && <WorkshopAbout data={workShop} />}
                             {tab == "Instructer" && <Instructer data={workShop} />}
+                            {tab == "Edit" && <EditWorkShop data={workShop} />}
+                            {tab == "Delete" && <DeleteWorkshop />}
                         </div>
                     </div>
                 </div>

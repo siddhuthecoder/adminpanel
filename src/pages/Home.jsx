@@ -5,10 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Dashboard from "../components/Dashboard";
 import Documentation from "../components/sendDocument";
 import Users from "../components/Clients";
-import SendNotice from "../components/sendNotice";
-import Documents from "../components/Documents";
 import Events from "../components/events/EventsList";
-import WorkshopForm from "../components/workshops/SendWorkShop";
 import { PiListFill } from "react-icons/pi";
 import { CiLogin } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
@@ -16,6 +13,7 @@ import WorkShopsList from "../components/workshops/WorkShopsList";
 
 import LOGO from "../assets/logo.png";
 import Tabs from "../constants/tabs";
+import NotificationList from "../components/Notification/NotificationList";
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -23,7 +21,7 @@ const Home = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const [side, setSide] = useState(false);
   const navigate = useNavigate();
-  const role = "EventCoordinator"; //data?.admin?.role;
+  const role = "Web team"; //data?.admin?.role;
 
   const handleWidth = () => {
     setWidth(window.innerWidth);
@@ -287,7 +285,7 @@ const Home = () => {
           >
             {tab === "dashboard" && <Dashboard />}
             {tab === "users" && <Users />}
-            {tab === "sendNotice" && <SendNotice />}
+            {tab === "Notification" && <NotificationList />}
             {tab === "sendDocument" && <Documentation />}
             {tab === "events" && <Events />}
             {tab === "workshops" && <WorkShopsList />}

@@ -4,7 +4,7 @@ const Tabs = [
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
       { tab: "sendDocument", tabName: "Send Document" },
-      { tab: "sendNotice", tabName: "Send Notice" },
+      { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
@@ -15,7 +15,7 @@ const Tabs = [
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
       { tab: "sendDocument", tabName: "Send Document" },
-      { tab: "sendNotice", tabName: "Send Notice" },
+      { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
@@ -39,7 +39,7 @@ const Tabs = [
     role: "NotificationManager",
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
-      { tab: "sendNotice", tabName: "Send Notice" },
+      { tab: "Notification", tabName: "Notification" },
     ],
   },
   {
@@ -47,7 +47,7 @@ const Tabs = [
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
       { tab: "sendDocument", tabName: "Send Document" },
-      { tab: "sendNotice", tabName: "Send Notice" },
+      { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },

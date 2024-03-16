@@ -1,7 +1,0 @@
-const Workshops = () => {
-    return (
-        <>
-
-        </>
-    )
-}
