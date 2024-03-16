@@ -21,8 +21,7 @@ const Home = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const [side, setSide] = useState(false);
   const navigate = useNavigate();
-  const role = "Web team"; //data?.admin?.role;
-
+  const role = data?.newUser?.role || data?.user?.role
   const handleWidth = () => {
     setWidth(window.innerWidth);
   };
@@ -49,7 +48,6 @@ const Home = () => {
     const info = JSON.parse(localStorage.getItem("data"));
     setData(info);
   }, []);
-  console.log(data);
 
   return (
     <>
@@ -159,7 +157,6 @@ const Home = () => {
                             >
                               <div className="">
                                 <span>{dat.tabName}</span>
-                                {console.log("enter")}
                               </div>
                             </div>
                           ))}

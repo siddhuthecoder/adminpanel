@@ -136,7 +136,7 @@ const Register = () => {
             <label htmlFor="role" className="ps-2">
               Role
             </label>
-            <select onChange={handleChange} name="role" value={values.role} class="form-select" aria-label="Default select example">
+            <select onChange={handleChange} name="role" value={values.role} className="form-select" aria-label="Default select example">
               <option selected>Select your Role</option>
               <option value="Web team">Web Team</option>
               <option value="Core team">Core Team</option>
