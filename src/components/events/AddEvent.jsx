@@ -103,6 +103,17 @@ const AddEvent = () => {
           },
         }
       );
+      setEdit({
+        name: "",
+        dep: "",
+        img: "",
+        desc: "",
+        structure: "",
+        rules: [],
+        registedStudents: [],
+        teamSize: 0,
+        contact_info: "",
+      })
       toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
