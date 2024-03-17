@@ -3,7 +3,6 @@ const Tabs = [
     role: "Web team",
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
-      { tab: "sendDocument", tabName: "Send Document" },
       { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
@@ -15,7 +14,6 @@ const Tabs = [
     role: "Core team",
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
-      { tab: "sendDocument", tabName: "Send Document" },
       { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
@@ -48,7 +46,6 @@ const Tabs = [
     role: "RegistrationManager",
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
-      { tab: "sendDocument", tabName: "Send Document" },
       { tab: "Notification", tabName: "Notification" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },

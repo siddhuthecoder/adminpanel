@@ -19,17 +19,7 @@ const Events = () => {
   const [eventInfo, setEventInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState();
-  const eveNameRef = useRef(null);
-  const eveDepartmentRef = useRef(null);
-  const eveImgRef = useRef(null);
-  const aboutRef = useRef(null);
-  const structureRef = useRef(null);
-  const timelineRef = useRef(null);
-  const rulesRef = useRef(null);
-  const teamSizeRef = useRef(null);
-  const contactInfoRef = useRef(null);
-  const isRegistrationsOpenedRef = useRef(null);
-  const [edit, setEdit] = useState({
+ const [edit, setEdit] = useState({
     eveID: eventInfo._id,
     eveName: eventInfo.eveName,
     eveDepartment: "",
@@ -139,7 +129,7 @@ const Events = () => {
 
   const filteredEvents = events.filter(
     (event) =>
-      (tab === "ALL" || event.eveDepartment === tab) &&
+      (tab === "ALL" || event.dep === tab) &&
       (searchQuery === "" ||
         Object.values(event).some(
           (value) =>

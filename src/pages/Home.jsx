@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Dashboard from "../components/Dashboard";
 import Documentation from "../components/sendDocument";
-import Users from "../components/Clients";
+import Users from "../components/Users/Clients";
 import Events from "../components/events/EventsList";
 import { PiListFill } from "react-icons/pi";
 import { CiLogin } from "react-icons/ci";

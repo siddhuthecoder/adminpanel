@@ -113,7 +113,7 @@ const AddEvent = () => {
         registedStudents: [],
         teamSize: 0,
         contact_info: "",
-      })
+      });
       toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
@@ -123,7 +123,7 @@ const AddEvent = () => {
   };
 
   return (
-    <>
+    <section style={{ backgroundColor: "rgb(18, 18, 18)", height: "100vh" }}>
       {loading ? (
         <div>loading...</div>
       ) : (
@@ -173,20 +173,22 @@ const AddEvent = () => {
               >
                 Department
               </label>
-              <input
-                className="form-control"
-                type="text"
-                name="dep"
-                placeholder="Enter department"
-                value={edit.dep}
+              <select
                 onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+                name="dep"
+                value={edit.dep}
+                className="form-select"
+                aria-label="Default select example"
+              >
+                <option selected>Select your Department</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="MECH">MECH</option>
+                <option value="CHEM">CHEM</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MME">MME</option>
+              </select>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -339,7 +341,7 @@ const AddEvent = () => {
           </form>
         </>
       )}
-    </>
+    </section>
   );
 };
 export default AddEvent;

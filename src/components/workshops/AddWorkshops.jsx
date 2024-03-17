@@ -122,7 +122,7 @@ const AddWorkshops = () => {
   };
 
   return (
-    <>
+    <section style={{backgroundColor:"black",height:"100vh"}}>
       {loading ? (
         <div>loading...</div>
       ) : (
@@ -173,20 +173,16 @@ const AddWorkshops = () => {
               >
                 Department
               </label>
-              <input
-                className="form-control"
-                type="text"
-                name="dep"
-                placeholder="Enter department"
-                value={edit.dep}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <select onChange={handleChange} name="dep" value={edit.dep} className="form-select" aria-label="Default select example">
+              <option selected>Select your Department</option>
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="MECH">MECH</option>
+              <option value="CHEM">CHEM</option>
+              <option value="CIVIL">CIVIL</option>
+              <option value="MME">MME</option>
+            </select>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -363,7 +359,7 @@ const AddWorkshops = () => {
           </form>
         </>
       )}
-    </>
+    </section>
   );
 };
 export default AddWorkshops;

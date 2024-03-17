@@ -82,7 +82,7 @@ const Register = () => {
         className="resource-form w-100 d-flex justify-content-center flex-column align-items-center"
         style={{
           width: "100%",
-          backgroundColor:"black"
+          backgroundColor:"rgb(18, 18, 18)"
         }}
       >
         <div className="text-center  h3 bold-2" style={{ color: "white" }}>

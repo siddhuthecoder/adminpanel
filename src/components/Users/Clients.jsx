@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineGroups } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
-import CustomModal from "./modals/Modal";
-import { GoOrganization } from "react-icons/go";
-import { GoFileSubmodule } from "react-icons/go";
 import { IoMdPersonAdd } from "react-icons/io";
-import { FaCircleInfo } from "react-icons/fa6";
-import CustomModal2 from "./modals/Modal2";
-import '../App.css'
-import { Link, useNavigate } from "react-router-dom"
-import c from '../assets/b party.png'
-import { RiExpandUpDownFill } from "react-icons/ri";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import '../../App.css'
+import { NavLink, useNavigate } from "react-router-dom"
 import axios from 'axios'
-import CreateClient from "./createClient";
 
 const Users = () => {
     const Navigate = useNavigate()
-
     const navigate = useNavigate()
     const [filter, setFilter] = useState("all");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [userInfo, setUserInfo] = useState({})
     const [clientsData, setClientsData] = useState([])
@@ -53,7 +43,7 @@ const Users = () => {
                 const info = JSON.parse(localStorage.getItem("data"));
                 setUserInfo(info);
 
-                const response = await axios.get("http://localhost:3001/admin/auth/fetchAllUsers", {
+                const response = await axios.get("https://teckzitebackend.onrender.com/user/getAll", {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${info.token}`
@@ -66,7 +56,7 @@ const Users = () => {
                     throw new Error('Network response was not ok');
                 }
 
-                setClientsData(response.data);
+                setClientsData(response.data.users);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -77,24 +67,18 @@ const Users = () => {
     }, [userInfo.token]); // Use userInfo.token instead of userToken
 
     const sortClientsByName = (clients) => {
-        return clients.slice().sort((a, b) => {
-            const nameA = (a.name || '').toLowerCase();
-            const nameB = (b.name || '').toLowerCase();
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
+        return clients.sort((a,b)=>{
+            const textA = a.firstName.toUpperCase()
+            const textB = b.firstName.toUpperCase()
+            return textA.localeCompare(textB)
+        })
     };
 
     const sortedClients = sortClientsByName(clientsData);
 
     // Filter clients based on search query
     const filteredClients = sortedClients.filter(client =>
-        client.name.toLowerCase().includes(searchQuery.toLowerCase())
+        client.firstName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const [showModal, setShowModal] = useState(false);
@@ -143,10 +127,7 @@ const Users = () => {
                             <FiSearch style={{ marginRight: "-20px", zIndex: "1" }} />
                             <input type="text" placeholder="search......." className="py-1 ps-4" style={{ borderRadius: "5px", border: "0.3px solid grey" }} onChange={e => setSearchQuery(e.target.value)} />
                         </div>
-                        <button className="btn btn-primary mx-2  " onClick={openModal2} style={{ marginRight: "" }}><IoMdPersonAdd /><span className="px-1">{width > 600 ? "Create User" : "Add"}</span></button>
-                        <CustomModal2 showModal2={showModal2} closeModal2={closeModal2}>
-                            <CreateClient />
-                        </CustomModal2>
+                        <NavLink to="/clients/add-user" className="btn btn-primary mx-2  " style={{ marginRight: "" }}><IoMdPersonAdd /><span className="px-1">{width > 600 ? "Create User" : "Add"}</span></NavLink>
                     </div>
                     <div className={`w-100 d-flex ${width > 700 ? "justify-content-between" : "justify-content-around"} align-items-center flex-wrap`}>
                         <div className="d-flex flex-column mx-auto" style={{ width: "100%", minWidth: "350px", overflowX: "scroll" }}>
@@ -155,21 +136,20 @@ const Users = () => {
                                     <div className="">S.no</div>
                                     <div className="d-flex align-items-center" style={{ minWidth: "200px" }}>
                                         <span className="pe-4">User</span>
-                                        <RiExpandUpDownFill />
                                     </div>
                                     <div className="d-flex align-items-center" style={{ minWidth: "140px" }}>
                                         <span className="pe-4">Email</span>
-                                        <RiExpandUpDownFill />
+                                        
                                     </div>
                                     <div className="d-flex align-items-center" style={{ minWidth: "170px" }}>
                                         <span className="pe-4">College ID</span>
-                                        <RiExpandUpDownFill />
+                                        
                                     </div>
                                 </div>
                                 {
                                     filteredClients.map((data, index) => (
                                         <div className="d-flex justify-content-around align-items-center hover-effect cursor-pointer  my-1  py-4 shadow" style={{ width: "100%", minWidth: "950px", height: "50px", cursor: "pointer", backgroundColor: "black" }} onClick={() => {
-                                            setClientID(data._id)
+                                            setClientID(data.tzkid)
                                             console.log(clientID)
                                             if (clientID != "") {
                                                 navigate(`/clients/${clientID}`)
@@ -177,7 +157,7 @@ const Users = () => {
                                         }}>
                                             <div className="">{index + 1}</div>
                                             <div className="d-flex align-items-center" style={{ minWidth: "200px" }}>
-                                                {data.name}
+                                                {data.firstName} {data.lastName}
                                             </div>
                                             <div className="d-flex align-items-center" style={{ minWidth: "140px" }}>
                                                 {data.email}
