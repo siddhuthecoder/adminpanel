@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import eve from "../../assets/2109998.jpg";
 import { FiSearch } from "react-icons/fi";
@@ -7,11 +7,13 @@ import CustomModal2 from "../modals/Modal2";
 import EditEvent from "../../components/events/EditEvent";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const Events = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [tab, setTab] = useState("ALL");
-  const [data, setData] = useState({});
+  const {token} = useContext(context)
   const [events, setEvents] = useState([]);
   const [showModalArray, setShowModalArray] = useState([]);
   const [showModalArray2, setShowModalArray2] = useState([]);
@@ -33,20 +35,16 @@ const Events = () => {
     isRegistrationsOpened: false,
   });
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setData(info);
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://teckzitebackend.onrender.com/events/all-events",
+        `${import.meta.env.VITE_API}/events/all-events`,
         {
           headers: {
             "Content-Type": "Application/json",
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -54,40 +52,16 @@ const Events = () => {
         alert("success");
       }
       setEvents(response.data);
-      console.log(events);
     } catch (err) {
-      console.log(err);
+      toast.error("Internal Error",{theme:"colored"})
     }
     setLoading(false);
   };
 
-  const fetchEvent = async () => {
-    setLoading(true);
-    try {
-      const responseData = await axios.get(
-        `https://teckzitebackend.onrender.com/events/event/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${data.token}`,
-          },
-        }
-      );
-      setEdit(responseData.data);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-  };
 
   useEffect(() => {
     fetchData();
-  }, [data.token]);
-
-  useEffect(() => {
-    fetchEvent();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     setShowModalArray(new Array(events.length).fill(false));
@@ -109,7 +83,7 @@ const Events = () => {
   };
 
   const openModal2 = (index) => {
-    console.log("open");
+
     setId(events[index]._id);
     const updatedShowModalArray2 = [...showModalArray];
     updatedShowModalArray2[index] = true;
@@ -129,7 +103,7 @@ const Events = () => {
 
   const filteredEvents = events.filter(
     (event) =>
-      (tab === "ALL" || event.dep === tab) &&
+      (event.dep === tab) &&
       (searchQuery === "" ||
         Object.values(event).some(
           (value) =>
@@ -151,18 +125,18 @@ const Events = () => {
     setLoading(true);
     try {
       const response2 = await axios.put(
-        `https://teckzitebackend.onrender.com/events/edit-event/${id}`,
+        `${import.meta.env.VITE_API}/events/edit-event/${id}`,
         edit,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: ` Bearer ${data.token}`,
+            Authorization: ` Bearer ${token}`,
           },
         }
       );
-      console.log("Updated event data:", response2.data);
+      
     } catch (error) {
-      console.error("Error updating event data:", error);
+      toast.error("Error updating event data",{theme:"colored"});
     }
     setLoading(false);
   };
@@ -189,7 +163,7 @@ const Events = () => {
               onChange={handleSearch}
             />
           <input
-                onClick={()=>{Navigate("/events/add-event")}}
+                onClick={()=>{navigate("/events/add-event")}}
                 className="form-control"
                 type="submit"
                 value={`${ "Add Event"}`}
@@ -211,6 +185,13 @@ const Events = () => {
               style={{ cursor: "pointer" }}
             >
               ALL
+            </div>
+            <div
+              className={`px-4 mt-3 ${tab === "PUC" ? "tab-active" : ""}`}
+              onClick={() => setTab("PUC")}
+              style={{ cursor: "pointer" }}
+            >
+              PUC
             </div>
             <div
               className={`px-4 mt-3 ${tab === "CSE" ? "tab-active" : ""}`}
@@ -359,8 +340,7 @@ const Events = () => {
                         onClick={() => {
                           setId(data._id);
                           if (id != null) {
-                            console.log(id);
-                            Navigate(`/events/${id}`);
+                            navigate(`/events/${id}`);
                           }
                         }}
                       >

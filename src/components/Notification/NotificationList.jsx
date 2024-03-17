@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { FiSearch } from "react-icons/fi";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const NotificationList = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [tab, setTab] = useState("ALL");
-  const [data, setData] = useState({});
+  const {token} = useContext(context)
   const [notifications, setNotifications] = useState([]);
   const [showModalArray, setShowModalArray] = useState([]);
   const [showModalArray2, setShowModalArray2] = useState([]);
@@ -22,61 +24,32 @@ const NotificationList = () => {
     link: "",
   });
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setData(info);
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://teckzitebackend.onrender.com/notifications/",
+        `${import.meta.env.VITE_API}/notifications/all-notifications`,
         {
           headers: {
             "Content-Type": "Application/json",
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       if (response.status == 304) {
         alert("success");
       }
-      setNotifications(response.data);
-      console.log(notifications);
+      setNotifications(response.data.notifications);
     } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-  };
-
-  const fetchEvent = async () => {
-    setLoading(true);
-    try {
-      const responseData = await axios.get(
-        `https://teckzitebackend.onrender.com/notifications/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${data.token}`,
-          },
-        }
-      );
-      setEdit(responseData.data);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
+      toast.error("Internal Error",{theme:"colored"})
     }
     setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
-  }, [data.token]);
-
-  useEffect(() => {
-    fetchEvent();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     setShowModalArray(new Array(notifications.length).fill(false));
@@ -98,7 +71,7 @@ const NotificationList = () => {
   };
 
   const openModal2 = (index) => {
-    console.log("open");
+    
     setId(notifications[index]._id);
     const updatedShowModalArray2 = [...showModalArray];
     updatedShowModalArray2[index] = true;
@@ -124,28 +97,6 @@ const NotificationList = () => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response2 = await axios.put(
-        `https://teckzitebackend.onrender.com/notifications/${id}`,
-        edit,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${data.token}`,
-          },
-        }
-      );
-      console.log("Updated event data:", response2.data);
-    } catch (error) {
-      console.error("Error updating event data:", error);
-    }
-    setLoading(false);
-  };
-
   return (
     <>
       <section
@@ -169,7 +120,7 @@ const NotificationList = () => {
             />
             <input
               onClick={() => {
-                Navigate("/notifications/add-notification");
+                navigate("/notifications/add-notification");
               }}
               className="form-control"
               type="submit"
@@ -243,8 +194,7 @@ const NotificationList = () => {
                         onClick={() => {
                           setId(data._id);
                           if (id != null) {
-                            console.log(id);
-                            Navigate(`/notificatons/${id}`);
+                            navigate(`/notifications/${id}`);
                           }
                         }}
                       >

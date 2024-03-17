@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 
@@ -15,18 +15,17 @@ import LOGO from "../assets/logo.png";
 import Tabs from "../constants/tabs";
 import NotificationList from "../components/Notification/NotificationList";
 import Register from "../components/auth/Register";
+import { context } from "../App";
 
 const Home = () => {
-  const [data, setData] = useState({});
+  const {role,admin} = useContext(context);
   const [tab, setTab] = useState("dashboard");
   const [width, setWidth] = useState(window.innerWidth);
   const [side, setSide] = useState(false);
   const navigate = useNavigate();
-  const role = data?.newUser?.role || data?.user?.role
   const handleWidth = () => {
     setWidth(window.innerWidth);
   };
-
   const handleSide = () => {
     if (width < 1000) {
       setSide(false);
@@ -45,10 +44,6 @@ const Home = () => {
     };
   }, [side]);
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setData(info);
-  }, []);
 
   return (
     <>
@@ -95,7 +90,7 @@ const Home = () => {
                 position: "relative",
               }}
             >
-              <h6>{data.admin?.name[0]}</h6>
+              <h6>{admin[0]}</h6>
 
               <div
                 className="profile-menu shadow"
@@ -110,7 +105,7 @@ const Home = () => {
                       borderRadius: "50%",
                     }}
                   >
-                    <h3 style={{ fontSize: "70px" }}>{data.admin?.name[0]}</h3>
+                    <h3 style={{ fontSize: "70px" }}>{admin[0]}</h3>
                   </div>
                   <div className="w-100 d-flex justify-content-around align-items-center">
                     <button className="btn btn-primary">View profile</button>
@@ -128,7 +123,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="prof-name">{data.admin?.name}</div>
+            <div className="prof-name">{admin}</div>
           </div>
         </div>
         <div className="w-100 d-flex" style={{ position: "relative" }}>
@@ -151,6 +146,7 @@ const Home = () => {
                         <>
                           {data.tabs.map((dat) => (
                             <div
+                            key={dat.tab}
                               className={`tab mb-2  ${
                                 tab === dat.tab ? "tab-actived" : ""
                               }`}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import AboutEvent from './AboutEvent'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
@@ -7,6 +7,8 @@ import Edit from './EditEvent'
 import { MdKeyboardBackspace } from "react-icons/md";
 import { GrNext } from "react-icons/gr";
 import DeleteEvent from './DeleteEvent'
+import { toast } from 'react-toastify'
+import { context } from '../../App'
 
 
 
@@ -14,34 +16,26 @@ import DeleteEvent from './DeleteEvent'
 const EventDetails = () => {
 
     const [tab, setTab] = useState("About")
-    const [token, setToken] = useState("")
+    const {token} = useContext(context);
     const [eveInfo, setEveInfo] = useState({})
     const [loading, setLoading] = useState(true)
     const { id } = useParams()
-    console.log(id);
-    useEffect(() => {
-        const info = JSON.parse(localStorage.getItem("data"))
-        setToken(info.token)
-        console.log(token)
-    }, [])
-
 
     const fetchData = async () => {
 
         try {
-            const responseData = await axios.get(`https://teckzitebackend.onrender.com/events/${id}`, {
+            const responseData = await axios.get(`${import.meta.env.VITE_API}/events/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": ` Bearer ${token}`,
                 }
             })
             setEveInfo(responseData.data)
-            console.log(eveInfo)
             setLoading(false)
 
         }
         catch (err) {
-            console.log(err)
+            toast.error("Internal Error",{theme:"colored"})
         }
     }
 
@@ -81,7 +75,7 @@ const EventDetails = () => {
                 <div className="w-100 mt-5  d-flex align-items-center">
                     <div className="h3 ms-3 text-white ">Events</div>
                     <GrNext className=" h4 text-primary" />
-                    <div className="h3 me-1 text-white">{eveInfo.eveName}</div>
+                    <div className="h3 me-1 text-white">{eveInfo.name}</div>
                 </div>
                 <div className="w-100 row mx-auto">
                     <div className="col-11 col-md-6 col-lg-4 mx-auto py-4 my-3 d-flex flex-column" style={{

@@ -1,27 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const WorkShopsList = () => {
   const Navigate = useNavigate();
-  const [token, setToken] = useState("");
+  const {token} = useContext(context)
   const [workshops, setWorkshops] = useState([]);
   const [tab, setTab] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-  }, []);
-
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://teckzitebackend.onrender.com/workshops/all-workshops",
+        `${import.meta.env.VITE_API}/workshops/all-workshops`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -29,10 +26,9 @@ const WorkShopsList = () => {
           },
         }
       );
-      console.log(response.data);
       setWorkshops(response.data);
     } catch (err) {
-      console.log(err);
+      toast.error("Internal Error",{theme:"colored"})
     }
     setLoading(false);
   };
@@ -144,7 +140,6 @@ const WorkShopsList = () => {
                       className="badge bg-dark btn"
                       onClick={() => {
                         setId(data._id);
-                        console.log(id);
                         if (id != "") {
                           Navigate(`/workshops/${id}`);
                         }

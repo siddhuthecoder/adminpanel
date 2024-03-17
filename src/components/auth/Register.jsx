@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState,  } from "react";
 import "../../App.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CustomModal from "../modals/Modal";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,8 +13,6 @@ const Register = () => {
     password: "",
     role: "",
   });
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const openModal = () => {
     setShowModal(true);
@@ -50,23 +49,25 @@ const Register = () => {
     setIsSubmit(true);
     try {
       const response = await axios.post(
-        "https://teckzitebackend.onrender.com/admin/register",
+        `${import.meta.env.VITE_API}/admin/register`,
         values
       );
 
       if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("data", JSON.stringify(response.data));
         setValid(true);
         setShowModal(true);
+        setValues({
+          username: "",
+          password: "",
+          role: "",
+        })
       } else {
         setValid(false);
         alert("incorect");
       }
     } catch (err) {
-      console.error(err);
       setValid(false);
-      alert("incorrect cradentials");
+      toast.error("Internal Error");
       window.location.reload();
     }
     setIsSubmit(false);
@@ -154,21 +155,6 @@ const Register = () => {
             />
           </span>
         </form>
-        {showModal && (
-          <CustomModal showModal={showModal} closeModal={closeModal}>
-            {valid ? "success" : "false"}
-            <div className="w-100 d-flex">
-              <button
-                className="btn btn-success mx-auto"
-                onClick={() => {
-                  navigate("/home");
-                }}
-              >
-                Continue
-              </button>
-            </div>
-          </CustomModal>
-        )}
       </section>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MdEventAvailable, MdGroups, MdKeyboardBackspace } from "react-icons/md";
 import logo from "../../assets/logo.png";
@@ -19,11 +19,13 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
 import { RiExpandUpDownFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const ClientDetails = () => {
   const [right, setRight] = useState("details");
   const [dataArray, setDataArray] = useState([]);
-  const [userToken, setUserToken] = useState("");
+  const {token} = useContext(context);
   const [clientData, setClientData] = useState({});
   const [loading, setLoading] = useState(true);
   const [pdfID, setPdfID] = useState("");
@@ -39,15 +41,13 @@ const ClientDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getToken = localStorage.getItem("token");
-        setUserToken(getToken);
 
         const response = await axios.get(
-          `https://teckzitebackend.onrender.com/user/${clientId}`,
+          `${import.meta.env.VITE_API}/user/${clientId}`,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `${userToken}`,
+              Authorization: `${token}`,
             },
           }
         );
@@ -57,15 +57,14 @@ const ClientDetails = () => {
         }
 
         setClientData(response.data.user);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
-        console.error(err);
+        toast.error("Internal Error",{theme:"colored"})
       }
     };
 
     fetchData();
-  }, [userToken]);
+  }, [token]);
 
   useEffect(() => {
     if (clientData.email) {
@@ -73,10 +72,6 @@ const ClientDetails = () => {
     }
   }, [clientData.email]);
 
-  useEffect(() => {
-    console.log(email);
-  }, [email]);
-  console.log(clientId);
 
   const getPdf = async () => {
     try {
@@ -93,7 +88,6 @@ const ClientDetails = () => {
       setPdfUrls(pdfTitles);
       setLoading(false);
     } catch (error) {
-      console.error("Error:", error);
       setError("Failed to fetch PDF titles");
       setLoading(false);
     }

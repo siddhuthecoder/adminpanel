@@ -1,23 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const DeleteEvent = () => {
     const {id} = useParams();
     const navigate = useNavigate()
     const [isDelete,setIsDelete] = useState(false);
-    const [token,setToken] = useState("");
-    useEffect(() => {
-        const info = JSON.parse(localStorage.getItem("data"));
-        setToken(info.token);
-      }, []);
+    const {token} = useContext(context)
     
     const handleDelete = async (e) => {
         e.preventDefault()
         setIsDelete(true)
         try {
-            const response2 = await axios.delete(`https://teckzitebackend.onrender.com/events/delete-event/${id}`, {
+            const response2 = await axios.delete(`${import.meta.env.VITE_API}/events/delete-event/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': ` Bearer ${token}`,
@@ -27,7 +24,6 @@ const DeleteEvent = () => {
             navigate("/home")
         } catch (error) {
             toast.error("Failed to delete",{theme:"colored"})
-            console.error('Error deleting event data:', error);
         }
         setIsDelete(false)
     };

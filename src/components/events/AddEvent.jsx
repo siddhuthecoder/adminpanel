@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const AddEvent = () => {
-  const [token, setToken] = useState("");
-  const [eveInfo, setEveInfo] = useState({});
+  const {token} = useContext(context)
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [edit, setEdit] = useState({
-    name: eveInfo.name,
+    name: "",
     dep: "",
     img: "",
     desc: "",
@@ -20,10 +20,6 @@ const AddEvent = () => {
     contact_info: "",
   });
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,7 +90,7 @@ const AddEvent = () => {
     setIsSubmit(true);
     try {
       const response2 = await axios.post(
-        `https://teckzitebackend.onrender.com/events/new`,
+        `${import.meta.env.VITE_API}/events/new`,
         edit,
         {
           headers: {
@@ -117,7 +113,6 @@ const AddEvent = () => {
       toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
-      console.error("Error Adding new event data:", error);
     }
     setIsSubmit(false);
   };
@@ -180,7 +175,9 @@ const AddEvent = () => {
                 className="form-select"
                 aria-label="Default select example"
               >
-                <option selected>Select your Department</option>
+                <option selected>Select Department</option>
+                <option value="ALL">ALL</option>
+                <option value="PUC">PUC</option>
                 <option value="CSE">CSE</option>
                 <option value="ECE">ECE</option>
                 <option value="EEE">EEE</option>

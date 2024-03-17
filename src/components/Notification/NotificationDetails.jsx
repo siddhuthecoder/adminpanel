@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
@@ -8,6 +8,8 @@ import { GrNext } from "react-icons/gr";
 import AboutNotification from './AboutNotification';
 import EditNotification from './EditNotification';
 import DeleteNotification from './DeleteNotification';
+import { toast } from 'react-toastify';
+import { context } from '../../App';
 
 
 
@@ -15,34 +17,27 @@ import DeleteNotification from './DeleteNotification';
 const NotificationDetails = () => {
 
     const [tab, setTab] = useState("About")
-    const [token, setToken] = useState("")
+    const {token} = useContext(context)
     const [noticInfo, setNoticInfo] = useState({})
     const [loading, setLoading] = useState(false)
     const { id } = useParams()
-    console.log(id);
-    useEffect(() => {
-        const info = JSON.parse(localStorage.getItem("data"))
-        setToken(info.token)
-        console.log(token)
-    }, [])
 
 
     const fetchData = async () => {
         setLoading(true)
         try {
-            const responseData = await axios.get(`https://teckzitebackend.onrender.com/notifications/${id}`, {
+            const responseData = await axios.get(`${import.meta.env.VITE_API}/notifications/note/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": ` Bearer ${token}`,
                 }
             })
-            setNoticInfo(responseData.data)
-            console.log(noticInfo)
+            setNoticInfo(responseData.data.notification)
             setLoading(false)
 
         }
         catch (err) {
-            console.log(err)
+            toast.error("Internal Error",{theme:"colored"})
         }
         setLoading(false)
     }

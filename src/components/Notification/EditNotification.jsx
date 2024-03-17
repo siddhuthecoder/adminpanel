@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const EditNotification = ({data}) => {
-  const [token, setToken] = useState("");
+  const {token} = useContext(context)
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const { id } = useParams();
   const [edit, setEdit] = useState(data);
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +52,7 @@ const EditNotification = ({data}) => {
     setIsSubmit(true);
     try {
       const response2 = await axios.put(
-        `https://teckzitebackend.onrender.com/notifications/update/${id}`,
+        `${import.meta.env.VITE_API}/notifications/update/${id}`,
         edit,
         {
           headers: {
@@ -67,7 +64,7 @@ const EditNotification = ({data}) => {
       toast.success("successfully modified",{theme:"colored"});
     } catch (error) {
       toast.error("Failed to Modify",{theme:"colored"})
-      console.error("Error updating event data:", error);
+      
     }
     setIsSubmit(false);
   };

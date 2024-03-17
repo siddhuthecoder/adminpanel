@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const AddWorkshops = () => {
-  const [token, setToken] = useState("");
+  const {token} = useContext(context);
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -19,11 +20,6 @@ const AddWorkshops = () => {
     instructorSpecifications: "",
     instructorImage: "",
   });
-
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,7 +89,7 @@ const AddWorkshops = () => {
     setIsSubmit(true);
     try {
       const response2 = await axios.post(
-        `https://teckzitebackend.onrender.com/workshops/new`,
+        `${import.meta.env.VITE_API}/workshops/new`,
         edit,
         {
           headers: {
@@ -116,7 +112,7 @@ const AddWorkshops = () => {
       toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
-      console.error("Error Adding new workshop data:", error);
+      
     }
     setIsSubmit(false);
   };
@@ -174,7 +170,9 @@ const AddWorkshops = () => {
                 Department
               </label>
               <select onChange={handleChange} name="dep" value={edit.dep} className="form-select" aria-label="Default select example">
-              <option selected>Select your Department</option>
+              <option selected>Select Department</option>
+              <option value="ALL">ALL</option>
+              <option value="PUC">PUC</option>
               <option value="CSE">CSE</option>
               <option value="ECE">ECE</option>
               <option value="EEE">EEE</option>

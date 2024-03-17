@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const AddNotification = () => {
   const [valid, setValid] = useState(false);
+  const [isSubmit,setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [token, setToken] = useState("");
+  const {token} = useContext(context)
   const [notice, setNotice] = useState({
     heading: "",
     info: "",
@@ -46,18 +48,13 @@ const AddNotification = () => {
     }
   };
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-    console.log(token);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(notice);
+    setIsSubmit(true);
     try {
       const response = await axios.post(
-        "https://teckzitebackend.onrender.com/notifications/new",
+        `${import.meta.env.VITE_API}/notifications/new`,
         notice,
         {
           headers: {
@@ -79,9 +76,11 @@ const AddNotification = () => {
         theme: "colored",
       });
     } catch (err) {
-      console.error(err);
+      console.log(err)
+      toast.error("Internal Error",{theme:"colored"})
       setValid(false);
     }
+    setIsSubmit(false)
   };
 
   return (
@@ -137,7 +136,7 @@ const AddNotification = () => {
 
           <span className="mt-3">
             <label htmlFor="link" className="ps-2">
-              Link (optional)
+              Image URL (optional)
             </label>
             <input
               type="text"
@@ -165,7 +164,7 @@ const AddNotification = () => {
           <span className="mt-3 w-100">
             <input
               type="submit"
-              value="Submit"
+              value={isSubmit?"sending...":"Submit"}
               className="w-100"
               style={{ backgroundColor: "#83eeee", color: "#121212" }}
             />

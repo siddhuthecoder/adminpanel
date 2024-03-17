@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MdOutlineGroups } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { IoMdPersonAdd } from "react-icons/io";
 import '../../App.css'
 import { NavLink, useNavigate } from "react-router-dom"
 import axios from 'axios'
+import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const Users = () => {
-    const Navigate = useNavigate()
     const navigate = useNavigate()
     const [filter, setFilter] = useState("all");
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [userInfo, setUserInfo] = useState({})
+    const {token} = useContext(context);
     const [clientsData, setClientsData] = useState([])
     const [clientID, setClientID] = useState("")
-    const clients = [
-        { title: "Name", minWidth: "200px" },
-        { title: "Email", minWidth: "120px" },
-        { title: "Company", minWidth: "120px" },
-        { title: "Created Date", minWidth: "60px" },
-        { title: "Phone", minWidth: "70px" },
-        { title: "Client Type", minWidth: "120px" },
-        { title: "Delete", minWidth: "40px" },
-
-    ]
-    const [currentPage, setCurrentPage] = useState(1);
     const [width, setWidth] = useState(window.innerWidth)
-    const itemsPerPage = 10;
     const handleWidth = () => {
         setWidth(window.innerWidth)
     }
@@ -40,18 +29,15 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const info = JSON.parse(localStorage.getItem("data"));
-                setUserInfo(info);
-
-                const response = await axios.get("https://teckzitebackend.onrender.com/user/getAll", {
+                
+                const response = await axios.get(`${import.meta.env.VITE_API}/user/getAll`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${info.token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
-                console.log("Response:", response.data); // Log response data for debugging
-
+               
                 if (response.status !== 200) {
                     throw new Error('Network response was not ok');
                 }
@@ -59,12 +45,12 @@ const Users = () => {
                 setClientsData(response.data.users);
                 setLoading(false);
             } catch (err) {
-                console.error(err);
+                toast.error("Internal Error",{theme:"colored"})
             }
         };
 
         fetchData();
-    }, [userInfo.token]); // Use userInfo.token instead of userToken
+    }, [token]); // Use userInfo.token instead of userToken
 
     const sortClientsByName = (clients) => {
         return clients.sort((a,b)=>{
@@ -148,9 +134,8 @@ const Users = () => {
                                 </div>
                                 {
                                     filteredClients.map((data, index) => (
-                                        <div className="d-flex justify-content-around align-items-center hover-effect cursor-pointer  my-1  py-4 shadow" style={{ width: "100%", minWidth: "950px", height: "50px", cursor: "pointer", backgroundColor: "black" }} onClick={() => {
+                                        <div key={index} className="d-flex justify-content-around align-items-center hover-effect cursor-pointer  my-1  py-4 shadow" style={{ width: "100%", minWidth: "950px", height: "50px", cursor: "pointer", backgroundColor: "black" }} onClick={() => {
                                             setClientID(data.tzkid)
-                                            console.log(clientID)
                                             if (clientID != "") {
                                                 navigate(`/clients/${clientID}`)
                                             }

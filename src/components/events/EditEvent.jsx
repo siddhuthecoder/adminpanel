@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const Edit = () => {
-  const [token, setToken] = useState("");
+  const {token} = useContext(context)
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -22,16 +23,12 @@ const Edit = () => {
     contact_info: "",
   });
 
-  useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("data"));
-    setToken(info.token);
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const responseData = await axios.get(
-        `https://teckzitebackend.onrender.com/events/${id}`,
+        `${import.meta.env.VITE_API}/events/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -43,7 +40,7 @@ const Edit = () => {
       setEveInfo(responseData.data);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      toast.error("Internal Error",{theme:"colored"})
     }
     setLoading(false);
   };
@@ -54,7 +51,7 @@ const Edit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     switch (name) {
       case "name":
         setEdit({
@@ -121,7 +118,7 @@ const Edit = () => {
     setIsSubmit(true);
     try {
       const response2 = await axios.put(
-        `https://teckzitebackend.onrender.com/events/edit-event/${id}`,
+        `${import.meta.env.VITE_API}/events/edit-event/${id}`,
         edit,
         {
           headers: {
@@ -130,10 +127,9 @@ const Edit = () => {
           },
         }
       );
-      toast.success("successfully modified",{theme:"colored"});
+      toast.success("successfully modified", { theme: "colored" });
     } catch (error) {
-      toast.error("Failed to Modify",{theme:"colored"})
-      console.error("Error updating event data:", error);
+      toast.error("Failed to Modify", { theme: "colored" });
     }
     setIsSubmit(false);
   };
@@ -191,20 +187,24 @@ const Edit = () => {
               >
                 Department
               </label>
-              <input
-                className="form-control"
-                type="text"
-                name="dep"
-                placeholder="Enter department"
-                value={edit.dep}
+              <select
                 onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+                name="dep"
+                value={edit.dep}
+                className="form-select"
+                aria-label="Default select example"
+              >
+                <option selected>Select Department</option>
+                <option value="ALL">ALL</option>
+                <option value="PUC">PUC</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="MECH">MECH</option>
+                <option value="CHEM">CHEM</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MME">MME</option>
+              </select>
             </div>
 
             <div className="m-3 d-flex flex-column">

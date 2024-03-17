@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import '../../App.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CustomModal from '../modals/Modal';
+import { toast } from 'react-toastify';
+import { context } from '../../App';
 
 const Login = () => {
   const navigate = useNavigate();
+  const {setToken,setRole,setAdmin} = useContext(context);
   const [valid, setValid] = useState(false)
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isSubmit,setIsSubmit] = useState(false)
   const openModal = () => {
@@ -42,21 +44,22 @@ const Login = () => {
     e.preventDefault();
     setIsSubmit(true)
     try {
-      const response = await axios.post("https://teckzitebackend.onrender.com/admin/login", values);
+      const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values);
 
       if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("data", JSON.stringify(response.data));
+        setToken(response.data.token);
+        setRole(response.data.user.role)
+        setAdmin(response.data.user.username)
         setValid(true)
         setShowModal(true);
+        navigate("/home")
       } else {
         setValid(false)
         alert("incorect");
       }
     } catch (err) {
-      console.error(err);
       setValid(false)
-      alert("incorrect cradentials")
+      toast.error("Incorrect Credentials",{theme:"colored"})
       window.location.reload()
 
     }

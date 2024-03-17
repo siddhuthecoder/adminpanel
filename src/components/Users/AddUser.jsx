@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const AddUser = () => {
+  const {token} = useContext(context)
   const [clientData, setClientData] = useState({
     branch: "",
     city: "",
@@ -75,10 +77,8 @@ const AddUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const getToken = localStorage.getItem("token");
-      const token = getToken;
       const response = await axios.post(
-        "https://teckzitebackend.onrender.com/user/register",
+        `${import.meta.env.VITE_API}/user/register`,
         clientData,
         {
           headers: {
@@ -112,13 +112,12 @@ const AddUser = () => {
         theme: "colored",
       });
     } catch (err) {
-      console.error(err);
-      
+      toast.error("Failed to Add new Notification",{theme:"colored"})
     }
   };
   return (
-    <section style={{backgroundColor:"black"}}>
-    <form
+    <section style={{ backgroundColor: "black" }}>
+      <form
         className="resource-form shadow d-flex flex-column ps-3 py-3 mx-auto"
         style={{
           width: "97%",
@@ -218,17 +217,23 @@ const AddUser = () => {
             {" "}
             Branch
           </label>
-          <select onChange={handleChange} name="branch" value={clientData.branch} className="form-select" aria-label="Default select example">
-              <option selected>Select your Branch</option>
-              <option value="CSE">CSE</option>
-              <option value="ECE">ECE</option>
-              <option value="EEE">EEE</option>
-              <option value="MECH">MECH</option>
-              <option value="CHEM">CHEM</option>
-              <option value="CIVIL">CIVIL</option>
-              <option value="MME">MME</option>
-            </select>
-            
+          <select
+            onChange={handleChange}
+            name="branch"
+            value={clientData.branch}
+            className="form-select"
+            aria-label="Default select example"
+          >
+            <option selected>Select your Branch</option>
+            <option value="PUC">PUC</option>
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="MECH">MECH</option>
+            <option value="CHEM">CHEM</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="MME">MME</option>
+          </select>
         </span>
         <span className="mt-3">
           <label htmlFor="name" className="ps-2">
