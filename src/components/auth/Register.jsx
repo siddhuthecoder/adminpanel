@@ -79,10 +79,10 @@ const Register = () => {
   return (
     <>
       <section
-        className="resource-form bg-dark w-100 d-flex justify-content-center flex-column align-items-center"
+        className="resource-form w-100 d-flex justify-content-center flex-column align-items-center"
         style={{
           width: "100%",
-          height: "100vh",
+          backgroundColor:"black"
         }}
       >
         <div className="text-center  h3 bold-2" style={{ color: "white" }}>
@@ -152,9 +152,6 @@ const Register = () => {
               className="w-100"
               style={{ backgroundColor: "#006996", color: "white" }}
             />
-          </span>
-          <span className="mt-3 w-100">
-            Already have account? <NavLink to={"/"}>login</NavLink>
           </span>
         </form>
         {showModal && (

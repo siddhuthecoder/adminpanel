@@ -134,7 +134,6 @@ const Login = () => {
               style={{ backgroundColor: "#006996", color: "white" }}
             />
           </span>
-          <span className="mt-3 w-100">Doesn't have account? <NavLink to={"/register"}>Register</NavLink></span>
         </form>
         {showModal &&
           <CustomModal showModal={showModal} closeModal={closeModal}>

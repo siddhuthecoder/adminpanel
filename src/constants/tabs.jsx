@@ -8,6 +8,7 @@ const Tabs = [
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
+      { tab: "register", tabName: "Register" },
     ],
   },
   {
@@ -19,6 +20,7 @@ const Tabs = [
       { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
+      { tab: "register", tabName: "Register" },
     ],
   },
   {

@@ -14,6 +14,7 @@ import WorkShopsList from "../components/workshops/WorkShopsList";
 import LOGO from "../assets/logo.png";
 import Tabs from "../constants/tabs";
 import NotificationList from "../components/Notification/NotificationList";
+import Register from "../components/auth/Register";
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -286,6 +287,7 @@ const Home = () => {
             {tab === "sendDocument" && <Documentation />}
             {tab === "events" && <Events />}
             {tab === "workshops" && <WorkShopsList />}
+            {tab === "register" && <Register />}
           </div>
         </div>
       </section>

@@ -10,14 +10,12 @@ import WorkshopDetails from './components/workshops/WorkShopDetails'
 import AddEvent from './components/events/AddEvent'
 import AddWorkshops from './components/workshops/AddWorkshops'
 import AddNotification from './components/Notification/AddNotification'
-import Register from './components/auth/Register'
 import NotificationDetails from './components/Notification/NotificationDetails'
 function App() {
 
   return (
     <Routes>
       <Route path='/' element={<Login />} />
-      <Route path='/register' element={<Register />} />
       <Route path='/home' element={<Home />} />
       <Route path='/clients/:clientId' element={<ClientDetails />} />
       <Route path="/clients/pdf/:pdfUrl" element={<ViewClientPdf />} />
