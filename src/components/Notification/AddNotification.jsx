@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const AddNotification = () => {
   const [valid, setValid] = useState(false);
@@ -14,7 +15,9 @@ const AddNotification = () => {
     picturePath: "",
     link: "",
   });
-
+  const handleFileInputChange = (file) => {
+    setNotice({...notice,picturePath: `${file.base64}`});
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -29,12 +32,6 @@ const AddNotification = () => {
         setNotice({
           ...notice,
           info: value,
-        });
-        break;
-      case "picturePath":
-        setNotice({
-          ...notice,
-          picturePath: value,
         });
         break;
       case "link":
@@ -54,7 +51,7 @@ const AddNotification = () => {
     setIsSubmit(true);
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API}/notifications/new`,
+        `${import.meta.env.VITE_API}/notifications/create/new`,
         notice,
         {
           headers: {
@@ -76,7 +73,6 @@ const AddNotification = () => {
         theme: "colored",
       });
     } catch (err) {
-      console.log(err)
       toast.error("Internal Error",{theme:"colored"})
       setValid(false);
     }
@@ -136,16 +132,12 @@ const AddNotification = () => {
 
           <span className="mt-3">
             <label htmlFor="link" className="ps-2">
-              Image URL (optional)
+              Image (optional)
             </label>
-            <input
-              type="text"
-              name="link"
-              value={notice.link}
-              placeholder="Post link"
-              onChange={handleChange}
-              style={{ backgroundColor: "#121212", color: "#ffffff" }}
-            />
+            <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {notice.picturePath!=""?"Seleted":"Select"}
+              </p>
           </span>
           <span className="mt-3">
             <label htmlFor="picturePath" className="ps-2">

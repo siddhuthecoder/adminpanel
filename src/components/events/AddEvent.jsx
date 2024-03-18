@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const AddEvent = () => {
   const {token} = useContext(context)
@@ -20,7 +21,9 @@ const AddEvent = () => {
     contact_info: "",
   });
 
-
+  const handleFileInputChange = (file) => {
+    setEdit({...edit,img: `${file.base64}`});
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -35,12 +38,6 @@ const AddEvent = () => {
         setEdit({
           ...edit,
           dep: value,
-        });
-        break;
-      case "img":
-        setEdit({
-          ...edit,
-          img: value,
         });
         break;
       case "desc":
@@ -194,22 +191,12 @@ const AddEvent = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image URL
+                Event Image
               </label>
-              <input
-                className="form-control"
-                type="url"
-                name="img"
-                placeholder="Enter event image URL"
-                value={edit.img}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {edit.img!=""?"Seleted":"Select"}
+              </p>
             </div>
 
             <div className="m-3 d-flex flex-column">

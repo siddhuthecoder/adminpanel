@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const EditWorkShop = ({ data }) => {
   const {token} = useContext(context)
@@ -12,7 +13,14 @@ const EditWorkShop = ({ data }) => {
 
   const [edit, setEdit] = useState(data);
   const [isSubmit, setIsSubmit] = useState(false);
-
+  const [isChange,setIsChange] = useState("Change")
+  const [isChange1,setIsChange1] = useState("Change")
+  const handleFileInputChange = (file) => {
+    setEdit({...edit,workshopImg: `${file.base64}`});
+  };
+  const handleFileInputChange1 = (file) => {
+    setEdit({...edit,instructorImage: `${file.base64}`});
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -32,12 +40,6 @@ const EditWorkShop = ({ data }) => {
         setEdit({
           ...edit,
           about: value,
-        });
-        break;
-      case "workshopImg":
-        setEdit({
-          ...edit,
-          workshopImg: value,
         });
         break;
       case "structure":
@@ -64,13 +66,6 @@ const EditWorkShop = ({ data }) => {
           instructorSpecifications: value,
         });
         break;
-      case "instructorImage":
-        setEdit({
-          ...edit,
-          instructorImage: value,
-        });
-        break;
-
       default:
         break;
     }
@@ -174,22 +169,12 @@ const EditWorkShop = ({ data }) => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Workshop Image URL
+                Workshop Image
               </label>
-              <input
-                className="form-control"
-                type="url"
-                name="workshopImg"
-                placeholder="Enter workshop image URL"
-                value={edit.workshopImg}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {isChange}
+              </p>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -289,22 +274,12 @@ const EditWorkShop = ({ data }) => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Instructor Image URL
+                Instructor Image
               </label>
-              <input
-                className="form-control"
-                type="url"
-                name="instructorImage"
-                placeholder="Enter Instructor image URL"
-                value={edit.instructorImage}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <FileBase64 multiple={false} onDone={handleFileInputChange1} />
+              <p style={{color:"white"}}>
+              {isChange1}
+              </p>
             </div>
             <div className="m-3 d-flex flex-column">
               <label

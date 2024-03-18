@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const Edit = () => {
   const {token} = useContext(context)
@@ -11,6 +12,7 @@ const Edit = () => {
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const { id } = useParams();
+  const [isChange,setIsChange] = useState("Change")
   const [edit, setEdit] = useState({
     name: eveInfo.name,
     dep: "",
@@ -22,7 +24,10 @@ const Edit = () => {
     teamSize: 0,
     contact_info: "",
   });
-
+  const handleFileInputChange = (file) => {
+    setEdit({...edit,img: `${file.base64}`});
+    setIsChange("Changed")
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -63,12 +68,6 @@ const Edit = () => {
         setEdit({
           ...edit,
           dep: value,
-        });
-        break;
-      case "img":
-        setEdit({
-          ...edit,
-          img: value,
         });
         break;
       case "desc":
@@ -213,22 +212,12 @@ const Edit = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image URL
+                Event Image
               </label>
-              <input
-                className="form-control"
-                type="url"
-                name="img"
-                placeholder="Enter event image URL"
-                value={edit.img}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {isChange}
+              </p>
             </div>
 
             <div className="m-3 d-flex flex-column">

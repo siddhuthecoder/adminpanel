@@ -224,7 +224,7 @@ const ClientDetails = () => {
               />
             </Link>
           </div>
-          <img src={logo} alt="" style={{ height: "40px" }} />
+          <img src={logo} alt="logo" style={{ height: "40px" }} />
         </div>
         <div className="breadcrumb py-3 px-3" style={{ color: "#ffffff" }}>
           <div className="breadcrumb-item h4">

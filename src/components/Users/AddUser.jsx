@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const AddUser = () => {
   const {token} = useContext(context)
@@ -24,6 +25,9 @@ const AddUser = () => {
     year: "",
   });
 
+  const handleFileInputChange = (file) => {
+    setClientData({...clientData,img: `${file.base64}`});
+  };
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -49,9 +53,6 @@ const AddUser = () => {
         break;
       case "collegeId":
         setClientData({ ...clientData, collegeId: value });
-        break;
-      case "img":
-        setClientData({ ...clientData, img: value });
         break;
       case "state":
         setClientData({ ...clientData, state: value });
@@ -276,6 +277,13 @@ const AddUser = () => {
               border: "none",
             }}
           />
+        </span>
+        <span className="mt-3">
+          <label htmlFor="name" className="ps-2">
+            {" "}
+            None RGUKT Students ID Photo
+          </label>
+          <FileBase64 multiple={false} onDone={handleFileInputChange} />
         </span>
 
         <span className="mt-3">

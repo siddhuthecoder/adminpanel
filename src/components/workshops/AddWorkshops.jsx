@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const AddWorkshops = () => {
   const {token} = useContext(context);
@@ -20,7 +21,12 @@ const AddWorkshops = () => {
     instructorSpecifications: "",
     instructorImage: "",
   });
-
+  const handleFileInputChange1 = (file) => {
+    setEdit({...edit,instructorImage: `${file.base64}`});
+  };
+  const handleFileInputChange = (file) => {
+    setEdit({...edit,workshopImg: `${file.base64}`});
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -40,12 +46,6 @@ const AddWorkshops = () => {
         setEdit({
           ...edit,
           about: value,
-        });
-        break;
-      case "workshopImg":
-        setEdit({
-          ...edit,
-          workshopImg: value,
         });
         break;
       case "structure":
@@ -72,13 +72,6 @@ const AddWorkshops = () => {
           instructorSpecifications: value,
         });
         break;
-      case "instructorImage":
-        setEdit({
-          ...edit,
-          instructorImage: value,
-        });
-        break;
-
       default:
         break;
     }
@@ -189,22 +182,12 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Workshop Image URL
+                Workshop Image
               </label>
-              <input
-                className="form-control"
-                type="url"
-                name="workshopImg"
-                placeholder="Enter workshop image URL"
-                value={edit.workshopImg}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
+              <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {edit.workshopImg!=""?"Seleted":"Select"}
+              </p>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -304,8 +287,12 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Instructor Image URL
+                Instructor Image
               </label>
+              <FileBase64 multiple={false} onDone={handleFileInputChange1} />
+              <p style={{color:"white"}}>
+              {edit.instructorImage!=""?"Seleted":"Select"}
+              </p>
               <input
                 className="form-control"
                 type="url"

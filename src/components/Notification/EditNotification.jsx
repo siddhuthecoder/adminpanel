@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
+import FileBase64 from 'react-file-base64';
 
 const EditNotification = ({data}) => {
   const {token} = useContext(context)
@@ -12,8 +13,11 @@ const EditNotification = ({data}) => {
   const [isSubmit, setIsSubmit] = useState(false);
   const { id } = useParams();
   const [edit, setEdit] = useState(data);
-
-
+  const [isChange,setIsChange] = useState("Change");
+  const handleFileInputChange = (file) => {
+    setEdit({...edit,picturePath: `${file.base64}`});
+    setIsChange("Changed")
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     
@@ -28,12 +32,6 @@ const EditNotification = ({data}) => {
         setEdit({
           ...edit,
           info: value,
-        });
-        break;
-      case "picturePath":
-        setEdit({
-          ...edit,
-          picturePath: value,
         });
         break;
       case "link":
@@ -146,6 +144,10 @@ const EditNotification = ({data}) => {
               >
                 Picture URL
               </label>
+              <FileBase64 multiple={false} onDone={handleFileInputChange} />
+              <p style={{color:"white"}}>
+              {isChange}
+              </p>
               <input
                 className="form-control"
                 type="url"
