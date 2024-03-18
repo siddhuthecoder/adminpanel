@@ -1,4 +1,4 @@
-import { useState,  } from "react";
+import { useContext, useState,  } from "react";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -52,7 +52,6 @@ const Register = () => {
         `${import.meta.env.VITE_API}/admin/register`,
         values
       );
-
       if (response.status === 200) {
         setValid(true);
         setShowModal(true);
@@ -144,6 +143,7 @@ const Register = () => {
               <option value="EventCoordinator">Event Co-ordinator</option>
               <option value="WorkshopCoordinator">Workshop Co-ordinator</option>
               <option value="NotificationManager">Notification Manager</option>
+              <option value="RegistrationManager">Registration Manager</option>
             </select>
           </span>
           <span className="mt-3 w-100">

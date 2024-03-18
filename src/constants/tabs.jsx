@@ -46,10 +46,7 @@ const Tabs = [
     role: "RegistrationManager",
     tabs: [
       { tab: "dashboard", tabName: "Dashboard" },
-      { tab: "Notification", tabName: "Notification" },
-      { tab: "workshops", tabName: "Workshop" },
       { tab: "users", tabName: "Users" },
-      { tab: "events", tabName: "Events" },
     ],
   },  
 ];

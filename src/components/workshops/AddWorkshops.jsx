@@ -105,6 +105,7 @@ const AddWorkshops = () => {
       toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
+      console.log(error)
       
     }
     setIsSubmit(false);
@@ -293,20 +294,6 @@ const AddWorkshops = () => {
               <p style={{color:"white"}}>
               {edit.instructorImage!=""?"Seleted":"Select"}
               </p>
-              <input
-                className="form-control"
-                type="url"
-                name="instructorImage"
-                placeholder="Enter Instructor image URL"
-                value={edit.instructorImage}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
             </div>
             <div className="m-3 d-flex flex-column">
               <label
