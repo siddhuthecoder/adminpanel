@@ -87,7 +87,7 @@ const Edit = () => {
       case "rules":
         setEdit({
           ...edit,
-          rules: value,
+          rules: value.split(","),
         });
         break;
       case "registedStudents":
