@@ -142,26 +142,12 @@ const EditNotification = ({data}) => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Picture URL
+                Image
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>
               {isChange}
               </p>
-              <input
-                className="form-control"
-                type="url"
-                name="picturePath"
-                placeholder="Enter Picture image URL"
-                value={edit.picturePath}
-                onChange={handleChange}
-                required
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "700",
-                }}
-              />
             </div>
             <div className="m-3 d-flex flex-column">
               <label
