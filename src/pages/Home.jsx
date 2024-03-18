@@ -201,7 +201,7 @@ const Home = () => {
                         className=""
                         style={{ color: "#FFFFFF", fontWeight: "700" }}
                       >
-                        U3Tech Pvt Ltd.
+                        Teckzite
                       </div>
                     </div>
                     <div

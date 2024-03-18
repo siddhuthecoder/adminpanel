@@ -131,6 +131,7 @@ const Login = () => {
 
           <span className="mt-3 w-100">
             <input
+              onClick={handleSubmit}
               type="submit"
               value={isSubmit?"sending...":"Submit"}
               className="w-100"
