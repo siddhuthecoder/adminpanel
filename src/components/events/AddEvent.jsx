@@ -19,7 +19,8 @@ const AddEvent = () => {
     registedStudents: [],
     teamSize: 0,
     contact_info: "",
-    prizeMoney:""
+    prizeMoney:"",
+    timeline:""
   });
 
   const handleFileInputChange = (file) => {
@@ -83,7 +84,13 @@ const AddEvent = () => {
             prizeMoney: value,
           });
           break;
-  
+          case "timeline":
+            setEdit({
+              ...edit,
+              timeline: value,
+            });
+            break;
+      
       default:
         break;
     }
@@ -113,7 +120,8 @@ const AddEvent = () => {
         registedStudents: [],
         teamSize: 0,
         contact_info: "",
-        prizeMoney:""
+        prizeMoney:"",
+        timeline:""
       });
       toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
@@ -344,6 +352,28 @@ const AddEvent = () => {
                 style={{
                   backgroundColor: "black",
                   color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="timeline"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Event Timeline
+              </label>
+              <textarea
+                name="timeline"
+                placeholder="Enter event timeline"
+                onChange={handleChange}
+                value={edit.timeline}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  resize: "none",
                   fontWeight: "700",
                 }}
               />

@@ -6,11 +6,20 @@ const AboutEvent = ({ data }) => {
                 <p className="" style={{ textIndent: "20px" }}>
                     {data.desc}
                 </p>
+                
+                <div className="h5 text-white">Event Timeline</div>
+                <p className="" style={{ textIndent: "20px" }}>
+                    {data?.timeline }
+                </p>
+
+                <div className="h5 text-white">Prize Money</div>
+                <p className="" style={{ textIndent: "20px" }}>
+                    {data?.prizeMoney }
+                </p>
                 <div className="h5 text-white">registerdStudents</div>
                 <p className="" style={{ textIndent: "20px" }}>
-                    {data?.registerdStudents.length==0 ? "No one is registered yet!" : data.registerdStudents?.map((e)=>e)}
+                    {data?.registerdStudents.length==0 ? "No one is registered yet!" : data.registerdStudents?.join(", ")}
                 </p>
-                
             </section>
         </>
     )

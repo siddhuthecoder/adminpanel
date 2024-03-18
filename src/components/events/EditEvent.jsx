@@ -23,6 +23,8 @@ const Edit = () => {
     registedStudents: [],
     teamSize: 0,
     contact_info: "",
+    prizeMoney:"",
+    timeline:""
   });
   const handleFileInputChange = (file) => {
     setEdit({...edit,img: `${file.base64}`});
@@ -106,7 +108,19 @@ const Edit = () => {
           contact_info: value,
         });
         break;
-
+        case "timeline":
+          setEdit({
+            ...edit,
+            timeline: value,
+          });
+          break;
+          case "prizeMoney":
+            setEdit({
+              ...edit,
+              prizeMoney: value,
+            });
+            break;
+    
       default:
         break;
     }
@@ -333,6 +347,52 @@ const Edit = () => {
                 style={{
                   backgroundColor: "black",
                   color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
+
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="prizeMoney"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Prize Money
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="prizeMoney"
+                placeholder="Enter event prize money"
+                value={edit.prizeMoney}
+                onChange={handleChange}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="timeline"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Event Timeline
+              </label>
+              <textarea
+                name="timeline"
+                placeholder="Enter event timeline"
+                onChange={handleChange}
+                value={edit.timeline}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  resize: "none",
                   fontWeight: "700",
                 }}
               />
