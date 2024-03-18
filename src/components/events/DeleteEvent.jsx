@@ -24,7 +24,7 @@ const DeleteEvent = () => {
             navigate("/home")
         } catch (error) {
             toast.error("Failed to delete",{theme:"colored"})
-            if(err?.message=="Unauthorized"){
+            if(error?.message=="Unauthorized"){
               navigate("/")
             }
         }

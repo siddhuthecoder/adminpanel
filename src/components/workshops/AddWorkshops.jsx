@@ -113,7 +113,7 @@ const AddWorkshops = () => {
       toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
-      if(err?.message=="Unauthorized"){
+      if(error?.message=="Unauthorized"){
         navigate("/")
       }
       
