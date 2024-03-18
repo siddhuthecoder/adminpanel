@@ -62,7 +62,9 @@ const EditNotification = ({data}) => {
       toast.success("successfully modified",{theme:"colored"});
     } catch (error) {
       toast.error("Failed to Modify",{theme:"colored"})
-      
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
     setIsSubmit(false);
   };

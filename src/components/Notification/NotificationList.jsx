@@ -43,6 +43,9 @@ const NotificationList = () => {
       setNotifications(response.data.notifications);
     } catch (err) {
       toast.error("Internal Error",{theme:"colored"})
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
     setLoading(false);
   };

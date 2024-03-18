@@ -23,7 +23,9 @@ const DeleteNotification = () => {
             navigate("/home")
         } catch (error) {
             toast.error("Failed to delete",{theme:"colored"})
-            
+            if(err?.message=="Unauthorized"){
+              navigate("/")
+            }
         }
         setIsDelete(false)
     };

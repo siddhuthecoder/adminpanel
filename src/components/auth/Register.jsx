@@ -2,7 +2,6 @@ import { useContext, useState,  } from "react";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import CustomModal from "../modals/Modal";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -52,22 +51,18 @@ const Register = () => {
         `${import.meta.env.VITE_API}/admin/register`,
         values
       );
-      if (response.status === 200) {
         setValid(true);
-        setShowModal(true);
         setValues({
           username: "",
           password: "",
           role: "",
         })
-      } else {
-        setValid(false);
-        alert("incorect");
-      }
     } catch (err) {
       setValid(false);
-      toast.error("Internal Error");
-      window.location.reload();
+      toast.error("Internal Error",{theme:"colored"});
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
     setIsSubmit(false);
   };

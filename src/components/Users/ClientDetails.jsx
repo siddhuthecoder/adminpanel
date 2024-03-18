@@ -30,7 +30,7 @@ const ClientDetails = () => {
   const [loading, setLoading] = useState(true);
   const [pdfID, setPdfID] = useState("");
   const { clientId } = useParams();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [pdfUrls, setPdfUrls] = useState([]);
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
@@ -60,6 +60,9 @@ const ClientDetails = () => {
         setLoading(false);
       } catch (err) {
         toast.error("Internal Error",{theme:"colored"})
+        if(err?.message=="Unauthorized"){
+          navigate("/")
+        }
       }
     };
 
@@ -150,6 +153,11 @@ const ClientDetails = () => {
         icon: <MdEventAvailable />,
         value: `${clientData.regWorkshop?.length==0?"No Registered Workshops":clientData.regWorkshop?.join(", ")}`,
       },
+      {
+        title: "Student ID Image",
+        icon: <PiIdentificationBadgeFill />,
+        value: `${clientData?.img}`,
+      },
               
   ];
 
@@ -158,7 +166,9 @@ const ClientDetails = () => {
       <>
         <div className="w-100 d-flex flex-column ">
           {clientDataInfo.map((data, index) => (
-            <div
+            <>
+            { data.value!="" &&
+              <div
               key={index}
               className=" mx-auto    row w-100 ps-3 py-2"
               style={{
@@ -175,13 +185,17 @@ const ClientDetails = () => {
                   {data.title}
                 </span>
               </div>
-              <div
+              {data.title=="Student ID Image"?<div className="col-12 sol-sm-7 col-md-8">
+                <img src={data.value} alt="student Id" width="150px" height={"150px"}/>
+              </div>:<div
                 className="col-12 col-sm-7 col-md-8"
                 style={{ color: "#00cccc", fontWeight: "700" }}
               >
                 {data.value}
-              </div>
+              </div>}
             </div>
+  }
+          </>
           ))}
         </div>
       </>
@@ -229,7 +243,7 @@ const ClientDetails = () => {
         <div className="breadcrumb py-3 px-3" style={{ color: "#ffffff" }}>
           <div className="breadcrumb-item h4">
             <Link
-              to="/clients"
+              to="/home"
               style={{ textDecoration: "none", color: "#cccccc" }}
             >
               Users

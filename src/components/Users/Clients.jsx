@@ -28,6 +28,7 @@ const Users = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             try {
                 
                 const response = await axios.get(`${import.meta.env.VITE_API}/user/getAll`, {
@@ -46,7 +47,11 @@ const Users = () => {
                 setLoading(false);
             } catch (err) {
                 toast.error("Internal Error",{theme:"colored"})
+                if(err?.message=="Unauthorized"){
+                    navigate("/")
+                  }
             }
+            setLoading(false)
         };
 
         fetchData();
@@ -89,7 +94,7 @@ const Users = () => {
         return (
             <>
                 <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-                    <div className="">Loading Clients information...</div>
+                    <div className="">Loading Users information...</div>
                 </div>
             </>
         );

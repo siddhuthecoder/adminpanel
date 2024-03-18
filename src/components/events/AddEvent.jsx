@@ -19,6 +19,7 @@ const AddEvent = () => {
     registedStudents: [],
     teamSize: 0,
     contact_info: "",
+    prizeMoney:""
   });
 
   const handleFileInputChange = (file) => {
@@ -76,7 +77,13 @@ const AddEvent = () => {
           contact_info: value,
         });
         break;
-
+        case "prizeMoney":
+          setEdit({
+            ...edit,
+            prizeMoney: value,
+          });
+          break;
+  
       default:
         break;
     }
@@ -106,10 +113,14 @@ const AddEvent = () => {
         registedStudents: [],
         teamSize: 0,
         contact_info: "",
+        prizeMoney:""
       });
       toast.success("successfully Added New Event", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
     setIsSubmit(false);
   };
@@ -304,6 +315,30 @@ const AddEvent = () => {
                 name="contact_info"
                 placeholder="Enter contact information"
                 value={edit.contact_info}
+                onChange={handleChange}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
+            
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="prizeMoney"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Prize Money
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="prizeMoney"
+                placeholder="Enter Prize Money"
+                value={edit.prizeMoney}
                 onChange={handleChange}
                 required
                 style={{

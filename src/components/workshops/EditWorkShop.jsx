@@ -66,6 +66,12 @@ const EditWorkShop = ({ data }) => {
           instructorSpecifications: value,
         });
         break;
+      case "entryFee":
+        setEdit({
+          ...edit,
+          entryFee: value,
+        });
+          break;
       default:
         break;
     }
@@ -73,7 +79,7 @@ const EditWorkShop = ({ data }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmit(true)
     try {
       const response2 = await axios.put(
         `${import.meta.env.VITE_API}/workshops/edit-workshop/${id}`,
@@ -88,7 +94,11 @@ const EditWorkShop = ({ data }) => {
       toast.success("successfully modified", { theme: "colored" });
     } catch (error) {
       toast.error("Internal Error",{theme:"colored"})
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
+    setIsSubmit(false)
   };
 
   return (
@@ -295,6 +305,29 @@ const EditWorkShop = ({ data }) => {
                 name="contact"
                 placeholder="Enter contact information"
                 value={edit.contact}
+                onChange={handleChange}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="entryFee"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Entry Fee
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="entryFee"
+                placeholder="Enter contact information"
+                value={edit.entryFee}
                 onChange={handleChange}
                 required
                 style={{

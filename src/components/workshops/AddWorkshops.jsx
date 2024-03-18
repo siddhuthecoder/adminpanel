@@ -20,6 +20,7 @@ const AddWorkshops = () => {
     instructorName: "",
     instructorSpecifications: "",
     instructorImage: "",
+    entryFee:""
   });
   const handleFileInputChange1 = (file) => {
     setEdit({...edit,instructorImage: `${file.base64}`});
@@ -72,6 +73,12 @@ const AddWorkshops = () => {
           instructorSpecifications: value,
         });
         break;
+        case "entryFee":
+          setEdit({
+            ...edit,
+            entryFee: value,
+          });
+          break;
       default:
         break;
     }
@@ -101,11 +108,14 @@ const AddWorkshops = () => {
         instructorName: "",
         instructorSpecifications: "",
         instructorImage: "",
+        entryFee:""
       });
       toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
       toast.error("Failed to add", { theme: "colored" });
-      console.log(error)
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
       
     }
     setIsSubmit(false);
@@ -318,7 +328,29 @@ const AddWorkshops = () => {
                 }}
               />
             </div>
-
+            <div className="m-3 d-flex flex-column">
+              <label
+                htmlFor="entryFee"
+                className="ps-2 form-label"
+                style={{ color: "#006996", fontWeight: "700" }}
+              >
+                Entry Fee
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="entryFee"
+                placeholder="Enter Entry Fee"
+                value={edit.entryFee}
+                onChange={handleChange}
+                required
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              />
+            </div>
             <div className="m-3 d-flex flex-column">
               <input
                 onClick={handleSubmit}

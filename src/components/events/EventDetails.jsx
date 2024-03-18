@@ -36,6 +36,9 @@ const EventDetails = () => {
         }
         catch (err) {
             toast.error("Internal Error",{theme:"colored"})
+            if(err?.message=="Unauthorized"){
+                navigate("/")
+              }
         }
     }
 

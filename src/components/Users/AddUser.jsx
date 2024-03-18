@@ -24,7 +24,7 @@ const AddUser = () => {
     tzkid: "",
     year: "",
   });
-
+  const [isSubmit,setIsSubmit] = useState(false)
   const handleFileInputChange = (file) => {
     setClientData({...clientData,img: `${file.base64}`});
   };
@@ -77,6 +77,7 @@ const AddUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmit(true)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API}/user/register`,
@@ -88,9 +89,6 @@ const AddUser = () => {
           },
         }
       );
-      if (response.status === 201) {
-        window.location.reload();
-      }
       setClientData({
         branch: "",
         city: "",
@@ -109,12 +107,16 @@ const AddUser = () => {
         tzkid: "",
         year: "",
       });
-      toast.success("successfully Added New Notification", {
+      toast.success("successfully Added New User", {
         theme: "colored",
       });
     } catch (err) {
-      toast.error("Failed to Add new Notification",{theme:"colored"})
+      toast.error("Failed to Add new User",{theme:"colored"})
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
+    setIsSubmit(false);
   };
   return (
     <section style={{ backgroundColor: "black" }}>
@@ -373,7 +375,7 @@ const AddUser = () => {
         <span className="mt-3">
           <input
             type="submit"
-            value="Submit"
+            value={isSubmit?"sending...":"Submit"}
             onClick={handleSubmit}
             style={{
               backgroundColor: "#006996",

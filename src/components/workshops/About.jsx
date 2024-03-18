@@ -12,6 +12,10 @@ const WorkshopAbout = ({ data }) => {
                 <p className="" style={{ textIndent: "20px" }}>
                     {data.structure}
                 </p>
+                <div className="h5 py-2 text-white">Entry Fee</div>
+                <p className="" style={{ textIndent: "20px" }}>
+                    {data.entryFee}
+                </p>
             </section>
         </>
     )

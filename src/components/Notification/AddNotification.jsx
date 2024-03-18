@@ -75,6 +75,9 @@ const AddNotification = () => {
     } catch (err) {
       toast.error("Internal Error",{theme:"colored"})
       setValid(false);
+      if(err?.message=="Unauthorized"){
+        navigate("/")
+      }
     }
     setIsSubmit(false)
   };
@@ -135,19 +138,16 @@ const AddNotification = () => {
               Image (optional)
             </label>
             <FileBase64 multiple={false} onDone={handleFileInputChange} />
-              <p style={{color:"white"}}>
-              {notice.picturePath!=""?"Seleted":"Select"}
-              </p>
           </span>
           <span className="mt-3">
-            <label htmlFor="picturePath" className="ps-2">
+            <label htmlFor="link" className="ps-2">
               Link (optional)
             </label>
             <input
               type="text"
-              name="picturePath"
-              value={notice.picturePath}
-              placeholder="Picture path"
+              name="link"
+              value={notice.link}
+              placeholder="Enter Link"
               onChange={handleChange}
               style={{ backgroundColor: "#121212", color: "#ffffff" }}
             />
