@@ -26,8 +26,15 @@ const AddUser = () => {
   });
   const [isSubmit,setIsSubmit] = useState(false)
   const handleFileInputChange = (file) => {
+    if(parseInt(file.size)>100){
+      setSize(true)
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     setClientData({...clientData,img: `${file.base64}`});
+    setSize(false)
+    }
   };
+  const [size,setSize] = useState(false);
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -78,6 +85,9 @@ const AddUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true)
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API}/user/register`,
@@ -115,7 +125,7 @@ const AddUser = () => {
       if(err?.message=="Unauthorized"){
         navigate("/")
       }
-    }
+    }}
     setIsSubmit(false);
   };
   return (
@@ -283,7 +293,7 @@ const AddUser = () => {
         <span className="mt-3">
           <label htmlFor="name" className="ps-2">
             {" "}
-            None RGUKT Students ID Photo
+            None RGUKT Students ID Photo {"(<100KB)"}
           </label>
           <FileBase64 multiple={false} onDone={handleFileInputChange} />
         </span>

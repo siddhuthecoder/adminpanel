@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { context } from "../../App";
@@ -9,6 +9,7 @@ const AddNotification = () => {
   const [isSubmit,setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const {token} = useContext(context)
+  const [size,setSize] = useState(false)
   const [notice, setNotice] = useState({
     heading: "",
     info: "",
@@ -16,7 +17,13 @@ const AddNotification = () => {
     link: "",
   });
   const handleFileInputChange = (file) => {
-    setNotice({...notice,picturePath: `${file.base64}`});
+      if(parseInt(file.size)>100){
+        setSize(true)
+        toast.error("File size should less than 100KB",{theme:"colored"})
+      }else{
+        setSize(false);
+        setNotice({...notice,picturePath: `${file.base64}`});
+      }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +56,9 @@ const AddNotification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API}/notifications/create/new`,
@@ -78,7 +88,7 @@ const AddNotification = () => {
       if(err?.message=="Unauthorized"){
         navigate("/")
       }
-    }
+    }}
     setIsSubmit(false)
   };
 
@@ -135,7 +145,7 @@ const AddNotification = () => {
 
           <span className="mt-3">
             <label htmlFor="link" className="ps-2">
-              Image (optional)
+              Image (optional) {"<"} 100KB
             </label>
             <FileBase64 multiple={false} onDone={handleFileInputChange} />
           </span>

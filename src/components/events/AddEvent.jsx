@@ -9,6 +9,7 @@ const AddEvent = () => {
   const {token} = useContext(context)
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [size,setSize] = useState(false);
   const [edit, setEdit] = useState({
     name: "",
     dep: "",
@@ -24,7 +25,14 @@ const AddEvent = () => {
   });
 
   const handleFileInputChange = (file) => {
-    setEdit({...edit,img: `${file.base64}`});
+    if(parseInt(file.size)>100){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+      setSize(true)
+    }else{
+      setSize(false)
+      setEdit({...edit,img: `${file.base64}`});
+    }
+    
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +107,9 @@ const AddEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response2 = await axios.post(
         `${import.meta.env.VITE_API}/events/new`,
@@ -129,7 +140,7 @@ const AddEvent = () => {
       if(error?.message=="Unauthorized"){
         navigate("/")
       }
-    }
+    }}
     setIsSubmit(false);
   };
 
@@ -210,7 +221,7 @@ const AddEvent = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image
+                Event Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>

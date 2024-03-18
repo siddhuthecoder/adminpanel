@@ -10,6 +10,8 @@ const AddWorkshops = () => {
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [size,setSize] = useState(false);
+  const [size1,setSize1] = useState(false) 
   const [edit, setEdit] = useState({
     name: eveInfo.name,
     dep: "",
@@ -23,11 +25,23 @@ const AddWorkshops = () => {
     entryFee:""
   });
   const handleFileInputChange1 = (file) => {
-    setEdit({...edit,instructorImage: `${file.base64}`});
+    if(parseInt(file.size)>100){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+      setSize1(true)
+    }else{
+      setSize1(false)
+      setEdit({...edit,instructorImage: `${file.base64}`});
+    }
   };
   const handleFileInputChange = (file) => {
-    setEdit({...edit,workshopImg: `${file.base64}`});
-  };
+    if(parseInt(file.size)>100){
+      setSize(true)
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
+      setSize(false)
+      setEdit({...edit,workshopImg: `${file.base64}`});
+    }
+    };
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -87,6 +101,11 @@ const AddWorkshops = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else if(size1){
+      toast.error("Image Should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response2 = await axios.post(
         `${import.meta.env.VITE_API}/workshops/new`,
@@ -117,7 +136,7 @@ const AddWorkshops = () => {
         navigate("/")
       }
       
-    }
+    }}
     setIsSubmit(false);
   };
 
@@ -193,7 +212,7 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Workshop Image
+                Workshop Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>
@@ -298,7 +317,7 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Instructor Image
+                Instructor Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange1} />
               <p style={{color:"white"}}>

@@ -11,6 +11,7 @@ const Edit = () => {
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [size,setSize] = useState(false);
   const { id } = useParams();
   const [isChange,setIsChange] = useState("Change")
   const [edit, setEdit] = useState({
@@ -27,12 +28,19 @@ const Edit = () => {
     timeline:""
   });
   const handleFileInputChange = (file) => {
+    if(parseInt(file.size)>100){
+      setSize(true)
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     setEdit({...edit,img: `${file.base64}`});
     setIsChange("Changed")
+    setSize(false)
+  }
   };
 
   const fetchData = async () => {
     setLoading(true);
+
     try {
       const responseData = await axios.get(
         `${import.meta.env.VITE_API}/events/${id}`,
@@ -129,6 +137,9 @@ const Edit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response2 = await axios.put(
         `${import.meta.env.VITE_API}/events/edit-event/${id}`,
@@ -146,7 +157,7 @@ const Edit = () => {
       if(error?.message=="Unauthorized"){
         navigate("/")
       }
-    }
+    }}
     setIsSubmit(false);
   };
 
@@ -229,7 +240,7 @@ const Edit = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image
+                Event Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>

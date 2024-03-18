@@ -11,12 +11,19 @@ const EditNotification = ({data}) => {
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [size,setSize] = useState(false);
   const { id } = useParams();
   const [edit, setEdit] = useState(data);
   const [isChange,setIsChange] = useState("Change");
   const handleFileInputChange = (file) => {
+    if(parseInt(file.size)>100){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+      setSize(true);
+    }else{
     setEdit({...edit,picturePath: `${file.base64}`});
     setIsChange("Changed")
+    setSize(false);
+  }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +55,10 @@ const EditNotification = ({data}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
+
+    if(size){
+      toast.error("Image should be less than 100KB",{theme:"colored"})
+    }else{
     try {
       const response2 = await axios.put(
         `${import.meta.env.VITE_API}/notifications/update/${id}`,
@@ -65,7 +76,7 @@ const EditNotification = ({data}) => {
       if(error?.message=="Unauthorized"){
         navigate("/")
       }
-    }
+    }}
     setIsSubmit(false);
   };
 
@@ -144,7 +155,7 @@ const EditNotification = ({data}) => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Image
+                Image {"(<100KB)"} 
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>
