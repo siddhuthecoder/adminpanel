@@ -23,6 +23,7 @@ const AddUser = () => {
     state: "",
     tzkid: "",
     year: "",
+    mode:"offline_mode"
   });
   const [isSubmit,setIsSubmit] = useState(false)
   const handleFileInputChange = (file) => {
