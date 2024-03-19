@@ -3,19 +3,27 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { context } from "../../App";
 import FileBase64 from 'react-file-base64';
+import MyRichTextEditor from "../shared/MyRichTextEditor";
+import { useNavigate } from "react-router-dom";
 
 const AddNotification = () => {
   const [valid, setValid] = useState(false);
   const [isSubmit,setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const {token} = useContext(context)
+  const navigate = useNavigate()
   const [size,setSize] = useState(false)
+  const [info,setInfo] = useState("")
   const [notice, setNotice] = useState({
     heading: "",
     info: "",
     picturePath: "",
     link: "",
   });
+  const setText = (ele)=>{
+    setInfo(ele)
+    setNotice({...notice,info:ele})
+  }
   const handleFileInputChange = (file) => {
       if(parseInt(file.size)>100){
         setSize(true)
@@ -33,12 +41,6 @@ const AddNotification = () => {
         setNotice({
           ...notice,
           heading: value,
-        });
-        break;
-      case "info":
-        setNotice({
-          ...notice,
-          info: value,
         });
         break;
       case "link":
@@ -83,10 +85,12 @@ const AddNotification = () => {
         theme: "colored",
       });
     } catch (err) {
-      toast.error("Internal Error",{theme:"colored"})
       setValid(false);
-      if(err?.message=="Unauthorized"){
+      if(err?.message=="Unauthorized" || err.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
       }
     }}
     setIsSubmit(false)
@@ -131,7 +135,7 @@ const AddNotification = () => {
             <label htmlFor="info" className="ps-2">
               Description
             </label>
-            <textarea
+            {/* <textarea
               name="info"
               cols="30"
               rows="5"
@@ -140,7 +144,8 @@ const AddNotification = () => {
               style={{ backgroundColor: "#121212", color: "#ffffff" }}
               onChange={handleChange}
               required
-            ></textarea>
+            ></textarea> */}
+            <MyRichTextEditor setText={setText} name={"add"} />
           </span>
 
           <span className="mt-3">

@@ -3,13 +3,16 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
-import FileBase64 from 'react-file-base64';
+import FileBase64 from "react-file-base64";
+import { useNavigate } from "react-router-dom";
+import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const AddEvent = () => {
-  const {token} = useContext(context)
+  const { token } = useContext(context);
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [size,setSize] = useState(false);
+  const [size, setSize] = useState(false);
+  const navigate = useNavigate();
   const [edit, setEdit] = useState({
     name: "",
     dep: "",
@@ -20,19 +23,22 @@ const AddEvent = () => {
     registedStudents: [],
     teamSize: 0,
     contact_info: "",
-    prizeMoney:"",
-    timeline:""
+    prizeMoney: "",
+    timeline: "",
   });
-
+  const setDesc = (ele) => setEdit({ ...edit, desc: ele });
+  const setStruct = (ele) => setEdit({ ...edit, structure: ele });
+  const setContact = (ele) => setEdit({ ...edit, contact_info: ele });
+  const setPrize = (ele) => setEdit({ ...edit, prizeMoney: ele });
+  const setTime = (ele) => setEdit({ ...edit, timeline: ele });
   const handleFileInputChange = (file) => {
-    if(parseInt(file.size)>100){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-      setSize(true)
-    }else{
-      setSize(false)
-      setEdit({...edit,img: `${file.base64}`});
+    if (parseInt(file.size) > 100) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+      setSize(true);
+    } else {
+      setSize(false);
+      setEdit({ ...edit, img: `${file.base64}` });
     }
-    
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,18 +54,6 @@ const AddEvent = () => {
         setEdit({
           ...edit,
           dep: value,
-        });
-        break;
-      case "desc":
-        setEdit({
-          ...edit,
-          desc: value,
-        });
-        break;
-      case "structure":
-        setEdit({
-          ...edit,
-          structure: value,
         });
         break;
       case "rules":
@@ -80,25 +74,7 @@ const AddEvent = () => {
           teamSize: value,
         });
         break;
-      case "contact_info":
-        setEdit({
-          ...edit,
-          contact_info: value,
-        });
-        break;
-        case "prizeMoney":
-          setEdit({
-            ...edit,
-            prizeMoney: value,
-          });
-          break;
-          case "timeline":
-            setEdit({
-              ...edit,
-              timeline: value,
-            });
-            break;
-      
+
       default:
         break;
     }
@@ -107,40 +83,43 @@ const AddEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    if(size){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else{
-    try {
-      const response2 = await axios.post(
-        `${import.meta.env.VITE_API}/events/new`,
-        edit,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${token}`,
-          },
+    if (size) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else {
+      try {
+        const response2 = await axios.post(
+          `${import.meta.env.VITE_API}/events/new`,
+          edit,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: ` Bearer ${token}`,
+            },
+          }
+        );
+        setEdit({
+          name: "",
+          dep: "",
+          img: "",
+          desc: "",
+          structure: "",
+          rules: [],
+          registedStudents: [],
+          teamSize: 0,
+          contact_info: "",
+          prizeMoney: "",
+          timeline: "",
+        });
+        toast.success("successfully Added New Event", { theme: "colored" });
+      } catch (error) {
+        if (error?.message == "Unauthorized" || error.response.status == 401) {
+          toast.error("Please Login Again", { theme: "colored" });
+          navigate("/");
+        } else {
+          toast.error("Failed to Modify", { theme: "colored" });
         }
-      );
-      setEdit({
-        name: "",
-        dep: "",
-        img: "",
-        desc: "",
-        structure: "",
-        rules: [],
-        registedStudents: [],
-        teamSize: 0,
-        contact_info: "",
-        prizeMoney:"",
-        timeline:""
-      });
-      toast.success("successfully Added New Event", { theme: "colored" });
-    } catch (error) {
-      toast.error("Failed to add", { theme: "colored" });
-      if(error?.message=="Unauthorized"){
-        navigate("/")
       }
-    }}
+    }
     setIsSubmit(false);
   };
 
@@ -224,8 +203,8 @@ const AddEvent = () => {
                 Event Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
-              <p style={{color:"white"}}>
-              {edit.img!=""?"Seleted":"Select"}
+              <p style={{ color: "white" }}>
+                {edit.img != "" ? "Seleted" : "Select"}
               </p>
             </div>
 
@@ -237,7 +216,7 @@ const AddEvent = () => {
               >
                 About
               </label>
-              <textarea
+              {/* <textarea
                 name="desc"
                 placeholder="Enter event description"
                 onChange={handleChange}
@@ -249,7 +228,10 @@ const AddEvent = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor name={"add"} setText={setDesc} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -260,7 +242,7 @@ const AddEvent = () => {
               >
                 Structure
               </label>
-              <textarea
+              {/* <textarea
                 name="structure"
                 placeholder="Enter event structure"
                 onChange={handleChange}
@@ -272,7 +254,10 @@ const AddEvent = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor name={"add"} setText={setStruct} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
@@ -280,7 +265,7 @@ const AddEvent = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Rules
+                Rules {"(seperate rules by using , )"}
               </label>
               <textarea
                 name="rules"
@@ -328,7 +313,7 @@ const AddEvent = () => {
               >
                 Contact Info
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="contact_info"
@@ -341,9 +326,12 @@ const AddEvent = () => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor name={"add"} setText={setContact} />
+              </div>
             </div>
-            
+
             <div className="m-3 d-flex flex-column">
               <label
                 htmlFor="prizeMoney"
@@ -352,7 +340,7 @@ const AddEvent = () => {
               >
                 Prize Money
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="prizeMoney"
@@ -365,7 +353,10 @@ const AddEvent = () => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor name={"add"} setText={setPrize} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
@@ -375,7 +366,7 @@ const AddEvent = () => {
               >
                 Event Timeline
               </label>
-              <textarea
+              {/* <textarea
                 name="timeline"
                 placeholder="Enter event timeline"
                 onChange={handleChange}
@@ -387,7 +378,10 @@ const AddEvent = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"add"} setText={setTime} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <input

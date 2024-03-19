@@ -5,6 +5,7 @@ import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
 import FileBase64 from 'react-file-base64';
+import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const EditWorkShop = ({ data }) => {
   const {token} = useContext(context)
@@ -17,6 +18,10 @@ const EditWorkShop = ({ data }) => {
   const [isChange1,setIsChange1] = useState("Change")
   const [size,setSize] = useState(false)
   const [size1,setSize1] = useState(false)
+  
+  const setDesc = (ele)=>setEdit({...edit,about:ele})
+  const setStruct = (ele)=>setEdit({...edit,structure:ele})
+  const setContact = (ele)=>setEdit({...edit,contact:ele})
   const handleFileInputChange = (file) => {
     if(parseInt(file.size)>100){
       toast.error("Image should be less than 100KB",{theme:"colored"})
@@ -50,24 +55,6 @@ const EditWorkShop = ({ data }) => {
         setEdit({
           ...edit,
           dep: value,
-        });
-        break;
-      case "about":
-        setEdit({
-          ...edit,
-          about: value,
-        });
-        break;
-      case "structure":
-        setEdit({
-          ...edit,
-          structure: value,
-        });
-        break;
-      case "contact":
-        setEdit({
-          ...edit,
-          contact: value,
         });
         break;
       case "instructorName":
@@ -216,7 +203,7 @@ const EditWorkShop = ({ data }) => {
               >
                 About
               </label>
-              <textarea
+              {/* <textarea
                 name="about"
                 placeholder="Enter workshop description"
                 onChange={handleChange}
@@ -228,7 +215,10 @@ const EditWorkShop = ({ data }) => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.about} setText={setDesc} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -239,7 +229,7 @@ const EditWorkShop = ({ data }) => {
               >
                 Structure
               </label>
-              <textarea
+              {/* <textarea
                 name="structure"
                 placeholder="Enter workshop structure"
                 onChange={handleChange}
@@ -251,7 +241,10 @@ const EditWorkShop = ({ data }) => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.structure} setText={setStruct} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -320,7 +313,7 @@ const EditWorkShop = ({ data }) => {
               >
                 Contact Info
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="contact"
@@ -333,7 +326,10 @@ const EditWorkShop = ({ data }) => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.contact} setText={setContact} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label

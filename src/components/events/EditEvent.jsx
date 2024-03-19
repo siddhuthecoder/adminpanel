@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
 import FileBase64 from 'react-file-base64';
+import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const Edit = () => {
   const {token} = useContext(context)
   const [eveInfo, setEveInfo] = useState({});
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [size,setSize] = useState(false);
@@ -27,6 +29,12 @@ const Edit = () => {
     prizeMoney:"",
     timeline:""
   });
+  
+  const setDesc = (ele) => setEdit({ ...edit, desc: ele });
+  const setStruct = (ele) => setEdit({ ...edit, structure: ele });
+  const setContact = (ele) => setEdit({ ...edit, contact_info: ele });
+  const setPrize = (ele) => setEdit({ ...edit, prizeMoney: ele });
+  const setTime = (ele) => setEdit({ ...edit, timeline: ele });
   const handleFileInputChange = (file) => {
     if(parseInt(file.size)>100){
       setSize(true)
@@ -55,7 +63,12 @@ const Edit = () => {
       setEveInfo(responseData.data);
       setLoading(false);
     } catch (err) {
-      toast.error("Internal Error",{theme:"colored"})
+      if(err?.message=="Unauthorized" || err.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
+        navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
+      }
     }
     setLoading(false);
   };
@@ -80,18 +93,6 @@ const Edit = () => {
           dep: value,
         });
         break;
-      case "desc":
-        setEdit({
-          ...edit,
-          desc: value,
-        });
-        break;
-      case "structure":
-        setEdit({
-          ...edit,
-          structure: value,
-        });
-        break;
       case "rules":
         setEdit({
           ...edit,
@@ -110,24 +111,6 @@ const Edit = () => {
           teamSize: value,
         });
         break;
-      case "contact_info":
-        setEdit({
-          ...edit,
-          contact_info: value,
-        });
-        break;
-        case "timeline":
-          setEdit({
-            ...edit,
-            timeline: value,
-          });
-          break;
-          case "prizeMoney":
-            setEdit({
-              ...edit,
-              prizeMoney: value,
-            });
-            break;
     
       default:
         break;
@@ -153,9 +136,11 @@ const Edit = () => {
       );
       toast.success("successfully modified", { theme: "colored" });
     } catch (error) {
-      toast.error("Failed to Modify", { theme: "colored" });
-      if(error?.message=="Unauthorized"){
+      if(error?.message=="Unauthorized" || error.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
       }
     }}
     setIsSubmit(false);
@@ -256,7 +241,7 @@ const Edit = () => {
               >
                 About
               </label>
-              <textarea
+              {/* <textarea
                 name="desc"
                 placeholder="Enter event description"
                 onChange={handleChange}
@@ -268,7 +253,10 @@ const Edit = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.desc} setText={setDesc} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -279,7 +267,7 @@ const Edit = () => {
               >
                 Structure
               </label>
-              <textarea
+              {/* <textarea
                 name="structure"
                 placeholder="Enter event structure"
                 onChange={handleChange}
@@ -291,7 +279,10 @@ const Edit = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.structure} setText={setStruct} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
@@ -347,7 +338,7 @@ const Edit = () => {
               >
                 Contact Info
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="contact_info"
@@ -360,7 +351,10 @@ const Edit = () => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.contact_info} setText={setContact} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -371,7 +365,7 @@ const Edit = () => {
               >
                 Prize Money
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="prizeMoney"
@@ -384,7 +378,10 @@ const Edit = () => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} data={edit.prizeMoney} setText={setPrize} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
@@ -394,7 +391,7 @@ const Edit = () => {
               >
                 Event Timeline
               </label>
-              <textarea
+              {/* <textarea
                 name="timeline"
                 placeholder="Enter event timeline"
                 onChange={handleChange}
@@ -406,7 +403,10 @@ const Edit = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"edit"} setText={setTime} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <input

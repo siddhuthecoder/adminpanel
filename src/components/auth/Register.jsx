@@ -59,9 +59,11 @@ const Register = () => {
         })
     } catch (err) {
       setValid(false);
-      toast.error("Internal Error",{theme:"colored"});
-      if(err?.message=="Unauthorized"){
+      if(err?.message=="Unauthorized" || err.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
       }
     }
     setIsSubmit(false);

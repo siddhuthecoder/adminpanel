@@ -22,10 +22,12 @@ const DeleteWorkshop = () => {
             toast.success("successfully deleted",{theme:"colored"})
             navigate("/home")
         } catch (error) {
-            toast.error("Failed to delete",{theme:"colored"})
-            if(error?.message=="Unauthorized"){
-              navigate("/")
-            }
+          if(error?.message=="Unauthorized" || error.response.status == 401){
+            toast.error("Please Login Again",{theme:"colored"})
+            navigate("/")
+          }else{
+            toast.error("Failed to Modify",{theme:"colored"})
+          }
         }
         setIsDelete(false)
     };

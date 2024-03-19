@@ -111,7 +111,7 @@ const WorkShopsList = () => {
                     <div className="badge bg-dark">{data.dep}</div>
                   </div>
                   <div className="text-center w-100 h3">{data.name}</div>
-                  <div className="w-100 text-center">{data.structure}</div>
+                  <div className="w-100 text-center"><div dangerouslySetInnerHTML={{ __html: data.about }} /></div>
                   <div className="w-100">
                     <div className="" style={{ color: "grey" }}>
                       By -/

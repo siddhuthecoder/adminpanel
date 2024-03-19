@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
 import FileBase64 from 'react-file-base64';
+import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const EditNotification = ({data}) => {
   const {token} = useContext(context)
@@ -12,6 +13,7 @@ const EditNotification = ({data}) => {
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [size,setSize] = useState(false);
+  const navigate = useNavigate()
   const { id } = useParams();
   const [edit, setEdit] = useState(data);
   const [isChange,setIsChange] = useState("Change");
@@ -25,6 +27,7 @@ const EditNotification = ({data}) => {
     setSize(false);
   }
   };
+  const setText = (ele)=>setEdit({...edit,info:ele})
   const handleChange = (e) => {
     const { name, value } = e.target;
     
@@ -33,12 +36,6 @@ const EditNotification = ({data}) => {
         setEdit({
           ...edit,
           heading: value,
-        });
-        break;
-      case "info":
-        setEdit({
-          ...edit,
-          info: value,
         });
         break;
       case "link":
@@ -72,9 +69,11 @@ const EditNotification = ({data}) => {
       );
       toast.success("successfully modified",{theme:"colored"});
     } catch (error) {
-      toast.error("Failed to Modify",{theme:"colored"})
-      if(error?.message=="Unauthorized"){
+      if(error?.message=="Unauthorized" || error.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
       }
     }}
     setIsSubmit(false);
@@ -133,7 +132,7 @@ const EditNotification = ({data}) => {
               >
                 Information
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="info"
@@ -146,7 +145,10 @@ const EditNotification = ({data}) => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+              <MyRichTextEditor setText={setText} name={"edit"} data={edit.info} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">

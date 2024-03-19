@@ -326,7 +326,10 @@ label {
   border-radius: 5px;
   background-color: #f9f9f9;
 }
-
+.rich-text-editor img {
+  width: 150px; /* Limits the image width to its container width */
+  height: 150px; /* Limits the image height to 300 pixels */
+}
 .pdf-viewer-container h1 {
   text-align: center;
   margin-bottom: 20px;

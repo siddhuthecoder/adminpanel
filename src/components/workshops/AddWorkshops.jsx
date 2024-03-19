@@ -4,16 +4,19 @@ import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
 import FileBase64 from 'react-file-base64';
+import { useNavigate } from "react-router-dom";
+import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const AddWorkshops = () => {
   const {token} = useContext(context);
   const [eveInfo, setEveInfo] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false);
   const [size,setSize] = useState(false);
   const [size1,setSize1] = useState(false) 
   const [edit, setEdit] = useState({
-    name: eveInfo.name,
+    name: "",
     dep: "",
     about: "",
     workshopImg: "",
@@ -24,6 +27,9 @@ const AddWorkshops = () => {
     instructorImage: "",
     entryFee:""
   });
+  const setDesc = (ele)=>setEdit({...edit,about:ele})
+  const setStruct = (ele)=>setEdit({...edit,structure:ele})
+  const setContact = (ele)=>setEdit({...edit,contact:ele})
   const handleFileInputChange1 = (file) => {
     if(parseInt(file.size)>100){
       toast.error("Image should be less than 100KB",{theme:"colored"})
@@ -55,24 +61,6 @@ const AddWorkshops = () => {
         setEdit({
           ...edit,
           dep: value,
-        });
-        break;
-      case "about":
-        setEdit({
-          ...edit,
-          about: value,
-        });
-        break;
-      case "structure":
-        setEdit({
-          ...edit,
-          structure: value,
-        });
-        break;
-      case "contact":
-        setEdit({
-          ...edit,
-          contact: value,
         });
         break;
       case "instructorName":
@@ -131,11 +119,12 @@ const AddWorkshops = () => {
       });
       toast.success("successfully Added New Workshop", { theme: "colored" });
     } catch (error) {
-      toast.error("Failed to add", { theme: "colored" });
-      if(error?.message=="Unauthorized"){
+      if(error?.message=="Unauthorized" || error.response.status == 401){
+        toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
+      }else{
+        toast.error("Failed to Modify",{theme:"colored"})
       }
-      
     }}
     setIsSubmit(false);
   };
@@ -228,7 +217,7 @@ const AddWorkshops = () => {
               >
                 About
               </label>
-              <textarea
+              {/* <textarea
                 name="about"
                 placeholder="Enter workshop description"
                 onChange={handleChange}
@@ -240,7 +229,10 @@ const AddWorkshops = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"add"} setText={setDesc} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -251,7 +243,7 @@ const AddWorkshops = () => {
               >
                 Structure
               </label>
-              <textarea
+              {/* <textarea
                 name="structure"
                 placeholder="Enter workshop structure"
                 onChange={handleChange}
@@ -263,7 +255,10 @@ const AddWorkshops = () => {
                   resize: "none",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"add"} setText={setStruct} />
+              </div>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -332,7 +327,7 @@ const AddWorkshops = () => {
               >
                 Contact Info
               </label>
-              <input
+              {/* <input
                 className="form-control"
                 type="text"
                 name="contact"
@@ -345,7 +340,10 @@ const AddWorkshops = () => {
                   color: "white",
                   fontWeight: "700",
                 }}
-              />
+              /> */}
+              <div style={{color:"white"}}>
+                <MyRichTextEditor name={"add"} setText={setContact} />
+              </div>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
