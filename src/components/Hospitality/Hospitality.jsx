@@ -71,7 +71,7 @@ const Hospitality = () => {
     }else if(gender=="female"){
         var rom = rooms.female
         for (var index = 0; index < rom.length; index++) {
-            if(rom[index].count <=6){
+            if(rom[index].count <=5){
                 setAlloc(rom[index].roomNo);
                 rom[index].count+=1
                 break
