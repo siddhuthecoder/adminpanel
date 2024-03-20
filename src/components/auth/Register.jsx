@@ -141,6 +141,7 @@ const Register = () => {
               <option value="WorkshopCoordinator">Workshop Co-ordinator</option>
               <option value="NotificationManager">Notification Manager</option>
               <option value="RegistrationManager">Registration Manager</option>
+              <option value="HospitalityManager">Hospitality Manager</option>
             </select>
           </span>
           <span className="mt-3 w-100">

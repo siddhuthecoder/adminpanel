@@ -16,6 +16,7 @@ import Tabs from "../constants/tabs";
 import NotificationList from "../components/Notification/NotificationList";
 import Register from "../components/auth/Register";
 import { context } from "../App";
+import Hospitality from "../components/Hospitality/Hospitality";
 
 const Home = () => {
   const {role,admin} = useContext(context);
@@ -284,6 +285,7 @@ const Home = () => {
             {tab === "events" && <Events />}
             {tab === "workshops" && <WorkShopsList />}
             {tab === "register" && <Register />}
+            {tab === "Hospitality" && <Hospitality />}
           </div>
         </div>
       </section>

@@ -8,6 +8,7 @@ const Tabs = [
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
       { tab: "register", tabName: "Register" },
+      { tab: "Hospitality", tabName: "Hospitality" },
     ],
   },
   {
@@ -19,6 +20,7 @@ const Tabs = [
       { tab: "users", tabName: "Users" },
       { tab: "events", tabName: "Events" },
       { tab: "register", tabName: "Register" },
+      { tab: "Hospitality", tabName: "Hospitality" },
     ],
   },
   {
@@ -48,7 +50,14 @@ const Tabs = [
       { tab: "dashboard", tabName: "Dashboard" },
       { tab: "users", tabName: "Users" },
     ],
-  },  
+  },
+  {
+    role: "HospitalityManager",
+    tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
+      { tab: "Hospitality", tabName: "Hospitality" },
+    ],
+  }  
 ];
 
 export default Tabs;
