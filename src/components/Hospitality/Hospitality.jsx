@@ -31,10 +31,10 @@ const Hospitality = () => {
         `${import.meta.env.VITE_API}/user/${values.tzkid}`,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`,
-          },
-        }
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }
+      }
       );
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
