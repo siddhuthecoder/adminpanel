@@ -34,7 +34,7 @@ const ClientDetails = () => {
   const [pdfUrls, setPdfUrls] = useState([]);
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
-
+console.log(token)
   const openPdfInNewTab = (pdfUrl) => {
     window.open(`${pdfUrl}#toolbar=0`, "_blank");
   };
@@ -46,10 +46,10 @@ const ClientDetails = () => {
           `${import.meta.env.VITE_API}/user/${clientId}`,
           {
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `${token}`,
-            },
-          }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
         );
 
         if (response.status !== 200) {
@@ -60,6 +60,7 @@ const ClientDetails = () => {
         setLoading(false);
       } catch (err) {
         toast.error("Internal Error",{theme:"colored"})
+        console.log(err)
         if(err?.message=="Unauthorized"){
           navigate("/")
         }

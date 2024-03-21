@@ -3,10 +3,12 @@ import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { context } from "../../App";
 
 const Register = () => {
   const navigate = useNavigate();
   const [valid, setValid] = useState(false);
+  const {token} = useContext(context)
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -49,7 +51,13 @@ const Register = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API}/admin/register`,
-        values
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
         setValid(true);
         setValues({
