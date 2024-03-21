@@ -210,7 +210,7 @@ const AddUser = () => {
             {" "}
             Year
           </label>
-          <input
+          {/* <input
             type="text"
             name="year"
             placeholder="Enter Year"
@@ -224,7 +224,22 @@ const AddUser = () => {
               borderRadius: "4px",
               border: "none",
             }}
-          />
+          /> */}
+          <select
+            onChange={handleChange}
+            name="year"
+            value={clientData.year}
+            className="form-select"
+            aria-label="Default select example"
+          >
+            <option selected>Select your Year</option>
+            <option value="PUC-1">PUC 1</option>
+            <option value="PUC-2">PUC 2</option>
+            <option value="E1">E1</option>
+            <option value="E2">E2</option>
+            <option value="E3">E3</option>
+            <option value="E4">E4</option>
+          </select>
         </span>
         <span className="mt-3">
           <label htmlFor="name" className="ps-2">

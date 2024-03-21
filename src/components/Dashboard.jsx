@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { token } = useContext(context);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,6 +53,14 @@ const Dashboard = () => {
     rguktrkv: { count: 0 },
     others: { count: 0 },
   });
+  const [year, setYear] = useState({
+    p1: { count: 0 },
+    p2: { count: 0 },
+    e1: { count: 0 },
+    e2: { count: 0 },
+    e3: { count: 0 },
+    e4: { count: 0 },
+  });
   const [dep, setDep] = useState({
     puc: { count: 0 },
     cse: { count: 0 },
@@ -85,9 +93,11 @@ const Dashboard = () => {
         console.log(user.length);
         var _rgukt = rgukt;
         var _dep = dep;
+        var _year = year
         user.map((item) => {
           const mail = item?.email?.split("@")[1].split(".")[0];
           const branch = item?.branch;
+          const batch = item?.year
           if (mail == "rguktn") {
             _rgukt.rguktn.count += 1;
           } else if (mail == "rguktong") {
@@ -99,7 +109,19 @@ const Dashboard = () => {
           } else {
             _rgukt.others.count += 1;
           }
-
+          if(batch == "PUC-1"){
+            _year.p1.count+=1
+          }else if(batch=="PUC-2"){
+            _year.p2.count+=1
+          }else if(batch=="E1"){
+            _year.e1.count+=1
+          }else if(batch=="E2"){
+            _year.e2.count+=1
+          }else if(batch=="E3"){
+            _year.e3.count+=1
+          }else if(batch=="E4"){
+            _year.e4.count+=1
+          }
           if (branch == "PUC") {
             _dep.puc.count += 1;
           } else if (branch == "CSE") {
@@ -120,6 +142,7 @@ const Dashboard = () => {
         });
         setRgukt(_rgukt);
         setDep(_dep);
+        setYear(_year)
         setTot(user.length);
         setClientsData(user);
         handlePgn(user, pgnCount);
@@ -165,8 +188,14 @@ const Dashboard = () => {
     { name: "MECH Registrations", count: dep.mech.count },
     { name: "CHEM Registrations", count: dep.chem.count },
     { name: "MME Registrations", count: dep.mme.count },
+    { name: "PUC-1 Registrations", count: year.p1.count },
+    { name: "PUC-2 Registrations", count: year.p2.count },
+    { name: "E-1 Registrations", count: year.e1.count },
+    { name: "E-2 Registrations", count: year.e2.count },
+    { name: "E-3 Registrations", count: year.e3.count },
+    { name: "E-4 Registrations", count: year.e4.count },
   ];
-
+  console.log(clientsData);
   return (
     <>
       {loading ? (
@@ -175,7 +204,7 @@ const Dashboard = () => {
         <section className="w-100 d-flex flex-column ps-4">
           <div className="row w-100">
             <div
-              className="col-12 mx-auto shadow d-flex align-items-center jjustify-content-between"
+              className="col-12 mx-auto shadow d-flex align-items-center justify-content-between"
               style={{}}
             >
               <div
@@ -219,8 +248,8 @@ const Dashboard = () => {
           {/* Table */}
 
           <div
-            className="table-responsive table-striped w-100  mt-4"
-            style={{ height: "auto", overflow: "" }}
+            className="table-responsive align-items-center table-striped  mt-4"
+            style={{ height: "auto", width: "3000px", overflow: "" }}
           >
             <div
               className="d-flex align-items-center justify-content-between mb-3 "
@@ -251,7 +280,7 @@ const Dashboard = () => {
               </select>
             </div>
             <div
-              className={`w-100 d-flex ${
+              className={` d-flex text-center ${
                 width > 700
                   ? "justify-content-between"
                   : "justify-content-around"
@@ -265,32 +294,65 @@ const Dashboard = () => {
                   overflowX: "scroll",
                 }}
               >
-                <div
-                  className="w-100 d-flex align-items-center flex-column   justify-content-center"
-                  style={{ minWidth: "1000px" }}
-                >
+                <div className="d-flex align-items-center flex-column   justify-content-center">
                   <div
-                    className="d-flex justify-content-around bg-dark text-white align-items-center  mb-2  py-1 shadow"
+                    className="d-flex text-center justify-content-around bg-dark text-white align-items-center  mb-2  py-1 shadow"
                     style={{ width: "100%", minWidth: "950px", height: "50px" }}
                   >
-                    <div className="">S.no</div>
+                    <div className="" style={{width:"200px"}}>S.no</div>
                     <div
-                      className="d-flex align-items-center"
-                      style={{ minWidth: "200px" }}
+                      className="d-flex text-center align-items-center"
+                      style={{ minWidth: "300px" }}
                     >
-                      <span className="pe-4">Teckzite ID</span>
+                      Teckzite ID
                     </div>
                     <div
                       className="d-flex align-items-center"
-                      style={{ minWidth: "200px" }}
+                      style={{ minWidth: "300px" }}
                     >
                       <span className="pe-4">User</span>
                     </div>
                     <div
                       className="d-flex align-items-center"
-                      style={{ minWidth: "170px" }}
+                      style={{ minWidth: "300px" }}
                     >
                       <span className="pe-4">College ID</span>
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "300px" }}
+                    >
+                      Branch
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "300px" }}
+                    >
+                      Year
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "350px" }}
+                    >
+                      Email
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "300px" }}
+                    >
+                      Contact
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "350px" }}
+                    >
+                      Address
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "300px" }}
+                    >
+                      Razorpay Order ID
                     </div>
                   </div>
                   {filteredClients.map((data, index) => (
@@ -311,25 +373,66 @@ const Dashboard = () => {
                         }
                       }}
                     >
-                      <div className="">{pgnCount + index + 1}</div>
+                      <div
+                        className="align-items-center"
+                        style={{ minWidth: "200px" }}
+                      >
+                        {pgnCount + index + 1}
+                      </div>
                       <div
                         className="d-flex   align-items-center"
-                        style={{ minWidth: "200px" }}
+                        style={{ minWidth: "300px" }}
                       >
                         <span className="pe-4">{data.tzkid}</span>
                       </div>
                       <div
                         className="d-flex align-items-center"
-                        style={{ minWidth: "200px" }}
+                        style={{ minWidth: "300px" }}
                       >
                         {data.firstName} {data.lastName}
                       </div>
 
                       <div
                         className="d-flex align-items-center"
-                        style={{ minWidth: "170px" }}
+                        style={{ minWidth: "300px" }}
                       >
                         {data.collegeId}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "300px" }}
+                      >
+                        {data.branch}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "300px" }}
+                      >
+                        {data.year}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "350px" }}
+                      >
+                        {data.email}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "300px" }}
+                      >
+                        {data.phno}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "350px" }}
+                      >
+                        {data.city} {data.district} {data.state}
+                      </div>
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "300px" }}
+                      >
+                        {data?.razorpay_order_id}
                       </div>
                     </div>
                   ))}
