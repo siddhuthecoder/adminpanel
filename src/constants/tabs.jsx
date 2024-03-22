@@ -26,35 +26,30 @@ const Tabs = [
   {
     role: "EventCoordinator",
     tabs: [
-      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "events", tabName: "Events" },
     ],
   },
   {
     role: "WorkshopCoordinator",
     tabs: [
-      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "workshops", tabName: "Workshop" },
     ],
   },
   {
     role: "NotificationManager",
     tabs: [
-      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "Notification", tabName: "Notification" },
     ],
   },
   {
     role: "RegistrationManager",
     tabs: [
-      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "users", tabName: "Users" },
     ],
   },
   {
     role: "HospitalityManager",
     tabs: [
-      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "Hospitality", tabName: "Hospitality" },
     ],
   }  

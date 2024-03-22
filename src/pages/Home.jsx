@@ -20,7 +20,7 @@ import Hospitality from "../components/Hospitality/Hospitality";
 
 const Home = () => {
   const {role,admin} = useContext(context);
-  const [tab, setTab] = useState("dashboard");
+  const [tab, setTab] = useState("");
   const [width, setWidth] = useState(window.innerWidth);
   const [side, setSide] = useState(false);
   const navigate = useNavigate();
@@ -45,6 +45,9 @@ const Home = () => {
     };
   }, [side]);
 
+  useEffect(()=>{
+    Tabs.map((item)=>item.role==role && setTab(item.tabs[0].tab))
+  },[])
 
   return (
     <>
