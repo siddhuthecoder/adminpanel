@@ -241,6 +241,13 @@ const Events = () => {
             >
               MME
             </div>
+            <div
+              className={`px-4 mt-3 ${tab === "ROBOTICS" ? "tab-active" : ""}`}
+              onClick={() => setTab("ROBOTICS")}
+              style={{ cursor: "pointer" }}
+            >
+              ROBOTICS
+            </div>
           </div>
         </div>
         <div className="w-100 col-12 d-flex justify-content-around align-items-center flex-wrap">

@@ -304,7 +304,6 @@ const Edit = () => {
                 name="rules"
                 placeholder="Enter event rules"
                 onChange={handleChange}
-                onBeforeInput={restrictInput}
                 value={edit.rules}
                 required
                 style={{
