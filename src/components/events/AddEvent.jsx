@@ -21,7 +21,7 @@ const AddEvent = () => {
     structure: "",
     rules: [],
     registedStudents: [],
-    teamSize: 0,
+    teamSize: 1,
     contact_info: "",
     prizeMoney: "",
     timeline: "",
@@ -122,6 +122,13 @@ const AddEvent = () => {
     }
     setIsSubmit(false);
   };
+  const restrictInput = (e) => {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, "");
+    "".replace();
+    e.target.value = sanitizedValue;
+  };
 
   return (
     <section style={{ backgroundColor: "rgb(18, 18, 18)", height: "100vh" }}>
@@ -156,6 +163,7 @@ const AddEvent = () => {
                 name="name"
                 placeholder="Enter department"
                 value={edit.name}
+                onBeforeInput={restrictInput}
                 onChange={handleChange}
                 required
                 style={{
@@ -191,6 +199,7 @@ const AddEvent = () => {
                 <option value="CHEM">CHEM</option>
                 <option value="CIVIL">CIVIL</option>
                 <option value="MME">MME</option>
+                <option value="ROBOTICS">ROBOTICS</option>
               </select>
             </div>
 
@@ -271,6 +280,7 @@ const AddEvent = () => {
                 name="rules"
                 placeholder="Enter event rules"
                 onChange={handleChange}
+                onBeforeInput={restrictInput}
                 value={edit.rules}
                 required
                 style={{
@@ -379,7 +389,7 @@ const AddEvent = () => {
                   fontWeight: "700",
                 }}
               /> */}
-              <div style={{color:"white"}}>
+              <div style={{ color: "white" }}>
                 <MyRichTextEditor name={"add"} setText={setTime} />
               </div>
             </div>

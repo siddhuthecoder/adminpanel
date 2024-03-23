@@ -2,10 +2,10 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { context } from "../../App";
-import FileBase64 from 'react-file-base64';
+import FileBase64 from "react-file-base64";
 
 const AddUser = () => {
-  const {token} = useContext(context)
+  const { token } = useContext(context);
   const [clientData, setClientData] = useState({
     branch: "",
     city: "",
@@ -23,19 +23,26 @@ const AddUser = () => {
     state: "",
     tzkid: "",
     year: "",
-    mode:"offline_mode"
+    mode: "offline_mode",
   });
-  const [isSubmit,setIsSubmit] = useState(false)
+  const [isSubmit, setIsSubmit] = useState(false);
+  const restrictInput = (e)=> {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, '');
+    "".replace()
+    e.target.value = sanitizedValue;
+  }
   const handleFileInputChange = (file) => {
-    if(parseInt(file.size)>100){
-      setSize(true)
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else{
-    setClientData({...clientData,img: `${file.base64}`});
-    setSize(false)
+    if (parseInt(file.size) > 100) {
+      setSize(true);
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else {
+      setClientData({ ...clientData, img: `${file.base64}` });
+      setSize(false);
     }
   };
-  const [size,setSize] = useState(false);
+  const [size, setSize] = useState(false);
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -85,48 +92,49 @@ const AddUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmit(true)
-    if(size){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else{
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API}/user/register`,
-        clientData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+    setIsSubmit(true);
+    if (size) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API}/user/register`,
+          clientData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setClientData({
+          branch: "",
+          city: "",
+          college: "",
+          collegeId: "",
+          district: "",
+          email: "",
+          firstName: "",
+          img: "",
+          lastName: "",
+          phno: "",
+          refreals: [],
+          regEvents: [],
+          regWorkshop: [],
+          state: "",
+          tzkid: "",
+          year: "",
+        });
+        toast.success("successfully Added New User", {
+          theme: "colored",
+        });
+      } catch (err) {
+        toast.error("Failed to Add new User", { theme: "colored" });
+        if (err?.message == "Unauthorized") {
+          navigate("/");
         }
-      );
-      setClientData({
-        branch: "",
-        city: "",
-        college: "",
-        collegeId: "",
-        district: "",
-        email: "",
-        firstName: "",
-        img: "",
-        lastName: "",
-        phno: "",
-        refreals: [],
-        regEvents: [],
-        regWorkshop: [],
-        state: "",
-        tzkid: "",
-        year: "",
-      });
-      toast.success("successfully Added New User", {
-        theme: "colored",
-      });
-    } catch (err) {
-      toast.error("Failed to Add new User",{theme:"colored"})
-      if(err?.message=="Unauthorized"){
-        navigate("/")
       }
-    }}
+    }
     setIsSubmit(false);
   };
   return (
@@ -153,6 +161,7 @@ const AddUser = () => {
             placeholder="Enter First Name"
             value={clientData.firstName}
             onChange={handleChange}
+            onBeforeInput={restrictInput}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -174,6 +183,7 @@ const AddUser = () => {
             placeholder="Enter Last Name"
             value={clientData.lastName}
             onChange={handleChange}
+            onBeforeInput={restrictInput}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -262,6 +272,7 @@ const AddUser = () => {
             <option value="CHEM">CHEM</option>
             <option value="CIVIL">CIVIL</option>
             <option value="MME">MME</option>
+            <option value="ROBOTICS">Robotics</option>
           </select>
         </span>
         <span className="mt-3">
@@ -275,6 +286,7 @@ const AddUser = () => {
             placeholder="Enter College Name"
             value={clientData.college}
             onChange={handleChange}
+            onBeforeInput={restrictInput}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -324,6 +336,7 @@ const AddUser = () => {
             name="city"
             placeholder="Enter City"
             value={clientData.city}
+            onBeforeInput={restrictInput}
             onChange={handleChange}
             required
             style={{
@@ -345,6 +358,7 @@ const AddUser = () => {
             name="district"
             placeholder="Enter District"
             value={clientData.district}
+            onBeforeInput={restrictInput}
             onChange={handleChange}
             required
             style={{
@@ -366,6 +380,7 @@ const AddUser = () => {
             name="state"
             placeholder="Enter State"
             value={clientData.state}
+            onBeforeInput={restrictInput}
             onChange={handleChange}
             required
             style={{
@@ -401,7 +416,7 @@ const AddUser = () => {
         <span className="mt-3">
           <input
             type="submit"
-            value={isSubmit?"sending...":"Submit"}
+            value={isSubmit ? "sending..." : "Submit"}
             onClick={handleSubmit}
             style={{
               backgroundColor: "#006996",

@@ -14,6 +14,13 @@ const Register = () => {
     password: "",
     role: "",
   });
+  const restrictInput = (e)=> {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, '');
+    "".replace()
+    e.target.value = sanitizedValue;
+  }
   const [isSubmit, setIsSubmit] = useState(false);
   const openModal = () => {
     setShowModal(true);
@@ -117,6 +124,7 @@ const Register = () => {
               type="name"
               name="username"
               value={values.username}
+              onBeforeInput={restrictInput}
               placeholder="Enter your Name"
               onChange={handleChange}
               required
@@ -133,6 +141,7 @@ const Register = () => {
               value={values.password}
               placeholder="Enter your password"
               onChange={handleChange}
+              onBeforeInput={restrictInput}
               required
               style={{ backgroundColor: "#555555", color: "#FFFFFF" }} // Dark input field
             />

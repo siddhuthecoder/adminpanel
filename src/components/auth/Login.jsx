@@ -19,6 +19,13 @@ const Login = () => {
   const openModal = () => {
     setShowModal(true);
   };
+  const restrictInput = (e)=> {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, '');
+    "".replace()
+    e.target.value = sanitizedValue;
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -110,6 +117,7 @@ const Login = () => {
               value={values.username}
               placeholder="Enter your Name"
               onChange={handleChange}
+              onBeforeInput={restrictInput}
               required
               style={{ backgroundColor: "#555555", color: "#FFFFFF" }} // Dark input field
             />
@@ -123,6 +131,7 @@ const Login = () => {
               name="password"
               placeholder="Enter your password"
               onChange={handleChange}
+              onBeforeInput={restrictInput}
               value={values.password}
               required
               style={{ backgroundColor: "#555555", color: "#FFFFFF" }} // Dark input field

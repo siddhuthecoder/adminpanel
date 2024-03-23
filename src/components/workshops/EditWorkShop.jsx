@@ -4,42 +4,42 @@ import axios from "axios";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { context } from "../../App";
-import FileBase64 from 'react-file-base64';
+import FileBase64 from "react-file-base64";
 import MyRichTextEditor from "../shared/MyRichTextEditor";
 
 const EditWorkShop = ({ data }) => {
-  const {token} = useContext(context)
+  const { token } = useContext(context);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   const [edit, setEdit] = useState(data);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [isChange,setIsChange] = useState("Change")
-  const [isChange1,setIsChange1] = useState("Change")
-  const [size,setSize] = useState(false)
-  const [size1,setSize1] = useState(false)
-  
-  const setDesc = (ele)=>setEdit({...edit,about:ele})
-  const setStruct = (ele)=>setEdit({...edit,structure:ele})
-  const setContact = (ele)=>setEdit({...edit,contact:ele})
+  const [isChange, setIsChange] = useState("Change");
+  const [isChange1, setIsChange1] = useState("Change");
+  const [size, setSize] = useState(false);
+  const [size1, setSize1] = useState(false);
+
+  const setDesc = (ele) => setEdit({ ...edit, about: ele });
+  const setStruct = (ele) => setEdit({ ...edit, structure: ele });
+  const setContact = (ele) => setEdit({ ...edit, contact: ele });
   const handleFileInputChange = (file) => {
-    if(parseInt(file.size)>100){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-      setSize(true)
-    }else{
-      setSize(false)
-      setIsChange("Changed")
-      setEdit({...edit,workshopImg: `${file.base64}`});
+    if (parseInt(file.size) > 100) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+      setSize(true);
+    } else {
+      setSize(false);
+      setIsChange("Changed");
+      setEdit({ ...edit, workshopImg: `${file.base64}` });
     }
   };
   const handleFileInputChange1 = (file) => {
-    if(parseInt(file.size)>100){
-      setSize1(true)
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else{
-      setIsChange1("Changed")
-      setSize1(false)
-      setEdit({...edit,instructorImage: `${file.base64}`});
+    if (parseInt(file.size) > 100) {
+      setSize1(true);
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else {
+      setIsChange1("Changed");
+      setSize1(false);
+      setEdit({ ...edit, instructorImage: `${file.base64}` });
     }
   };
   const handleChange = (e) => {
@@ -74,7 +74,7 @@ const EditWorkShop = ({ data }) => {
           ...edit,
           entryFee: value,
         });
-          break;
+        break;
       default:
         break;
     }
@@ -82,31 +82,32 @@ const EditWorkShop = ({ data }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmit(true)
-    if(size){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else if(size1){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
-    }else{
-    try {
-      const response2 = await axios.put(
-        `${import.meta.env.VITE_API}/workshops/edit-workshop/${id}`,
-        edit,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: ` Bearer ${token}`,
-          },
+    setIsSubmit(true);
+    if (size) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else if (size1) {
+      toast.error("Image should be less than 100KB", { theme: "colored" });
+    } else {
+      try {
+        const response2 = await axios.put(
+          `${import.meta.env.VITE_API}/workshops/edit-workshop/${id}`,
+          edit,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: ` Bearer ${token}`,
+            },
+          }
+        );
+        toast.success("successfully modified", { theme: "colored" });
+      } catch (error) {
+        toast.error("Internal Error", { theme: "colored" });
+        if (error?.message == "Unauthorized") {
+          navigate("/");
         }
-      );
-      toast.success("successfully modified", { theme: "colored" });
-    } catch (error) {
-      toast.error("Internal Error",{theme:"colored"})
-      if(error?.message=="Unauthorized"){
-        navigate("/")
       }
-    }}
-    setIsSubmit(false)
+    }
+    setIsSubmit(false);
   };
 
   return (
@@ -168,7 +169,7 @@ const EditWorkShop = ({ data }) => {
                 className="form-select"
                 aria-label="Default select example"
               >
-                <option >Select Department</option>
+                <option>Select Department</option>
                 <option value="ALL">ALL</option>
                 <option value="PUC">PUC</option>
                 <option value="CSE">CSE</option>
@@ -178,6 +179,7 @@ const EditWorkShop = ({ data }) => {
                 <option value="CHEM">CHEM</option>
                 <option value="CIVIL">CIVIL</option>
                 <option value="MME">MME</option>
+                <option value="ROBOTICS">Robotics</option>
               </select>
             </div>
 
@@ -190,9 +192,7 @@ const EditWorkShop = ({ data }) => {
                 Workshop Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
-              <p style={{color:"white"}}>
-              {isChange}
-              </p>
+              <p style={{ color: "white" }}>{isChange}</p>
             </div>
 
             <div className="m-3 d-flex flex-column">
@@ -216,8 +216,12 @@ const EditWorkShop = ({ data }) => {
                   fontWeight: "700",
                 }}
               /> */}
-              <div style={{color:"white"}}>
-                <MyRichTextEditor name={"edit"} data={edit.about} setText={setDesc} />
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor
+                  name={"edit"}
+                  data={edit.about}
+                  setText={setDesc}
+                />
               </div>
             </div>
 
@@ -242,8 +246,12 @@ const EditWorkShop = ({ data }) => {
                   fontWeight: "700",
                 }}
               /> */}
-              <div style={{color:"white"}}>
-                <MyRichTextEditor name={"edit"} data={edit.structure} setText={setStruct} />
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor
+                  name={"edit"}
+                  data={edit.structure}
+                  setText={setStruct}
+                />
               </div>
             </div>
 
@@ -301,9 +309,7 @@ const EditWorkShop = ({ data }) => {
                 Instructor Image {"(<100KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange1} />
-              <p style={{color:"white"}}>
-              {isChange1}
-              </p>
+              <p style={{ color: "white" }}>{isChange1}</p>
             </div>
             <div className="m-3 d-flex flex-column">
               <label
@@ -327,8 +333,12 @@ const EditWorkShop = ({ data }) => {
                   fontWeight: "700",
                 }}
               /> */}
-              <div style={{color:"white"}}>
-                <MyRichTextEditor name={"edit"} data={edit.contact} setText={setContact} />
+              <div style={{ color: "white" }}>
+                <MyRichTextEditor
+                  name={"edit"}
+                  data={edit.contact}
+                  setText={setContact}
+                />
               </div>
             </div>
             <div className="m-3 d-flex flex-column">

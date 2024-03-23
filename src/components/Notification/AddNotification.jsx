@@ -20,6 +20,13 @@ const AddNotification = () => {
     picturePath: "",
     link: "",
   });
+  const restrictInput = (e)=> {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, '');
+    "".replace()
+    e.target.value = sanitizedValue;
+  }
   const setText = (ele)=>{
     setInfo(ele)
     setNotice({...notice,info:ele})
@@ -124,6 +131,7 @@ const AddNotification = () => {
               type="text"
               name="heading"
               value={notice.heading}
+              onBeforeInput={restrictInput}
               placeholder="Title of the notice"
               onChange={handleChange}
               required
@@ -159,7 +167,7 @@ const AddNotification = () => {
               Link (optional)
             </label>
             <input
-              type="text"
+              type="url"
               name="link"
               value={notice.link}
               placeholder="Enter Link"

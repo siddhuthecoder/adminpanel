@@ -29,7 +29,13 @@ const Edit = () => {
     prizeMoney:"",
     timeline:""
   });
-  
+  const restrictInput = (e)=> {
+    const inputValue = e.target.value;
+    var reg = /[^\w\d]/g;
+    const sanitizedValue = inputValue.replace(reg, '');
+    "".replace()
+    e.target.value = sanitizedValue;
+  }
   const setDesc = (ele) => setEdit({ ...edit, desc: ele });
   const setStruct = (ele) => setEdit({ ...edit, structure: ele });
   const setContact = (ele) => setEdit({ ...edit, contact_info: ele });
@@ -182,6 +188,7 @@ const Edit = () => {
                 placeholder="Enter department"
                 value={edit.name}
                 onChange={handleChange}
+                onBeforeInput={restrictInput}
                 required
                 style={{
                   backgroundColor: "black",
@@ -216,6 +223,7 @@ const Edit = () => {
                 <option value="CHEM">CHEM</option>
                 <option value="CIVIL">CIVIL</option>
                 <option value="MME">MME</option>
+                <option value="ROBOTICS">Robotics</option>
               </select>
             </div>
 
@@ -296,6 +304,7 @@ const Edit = () => {
                 name="rules"
                 placeholder="Enter event rules"
                 onChange={handleChange}
+                onBeforeInput={restrictInput}
                 value={edit.rules}
                 required
                 style={{
