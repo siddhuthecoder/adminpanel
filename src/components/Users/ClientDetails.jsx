@@ -34,7 +34,7 @@ const ClientDetails = () => {
   const [pdfUrls, setPdfUrls] = useState([]);
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
-console.log(token)
+
   const openPdfInNewTab = (pdfUrl) => {
     window.open(`${pdfUrl}#toolbar=0`, "_blank");
   };
@@ -60,7 +60,7 @@ console.log(token)
         setLoading(false);
       } catch (err) {
         toast.error("Internal Error",{theme:"colored"})
-        console.log(err)
+        
         if(err?.message=="Unauthorized"){
           navigate("/")
         }

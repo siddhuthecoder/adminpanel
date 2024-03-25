@@ -1,4 +1,6 @@
 const AboutEvent = ({ data }) => {
+    const regSt = data.registerdStudents?.map((item)=>item[0].tzkid)
+
     return (
         <>
             <section className="w-100 d-flex flex-column justify-content-start align-items-start">
@@ -18,7 +20,7 @@ const AboutEvent = ({ data }) => {
                 </p>
                 <div className="h5 text-white">registerdStudents</div>
                 <p className="" style={{ textIndent: "20px" }}>
-                    {data?.registerdStudents.length==0 ? "No one is registered yet!" : data.registerdStudents?.join(", ")}
+                    {data?.registerdStudents.length==0 ? "No one is registered yet!" : regSt.join(", ")}
                 </p>
             </section>
         </>

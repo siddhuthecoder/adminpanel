@@ -21,7 +21,6 @@ const Hospitality = () => {
     if(local){
       setRooms(local)
     }
-    console.log(local)
   },[])
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -47,7 +46,6 @@ const Hospitality = () => {
       show ? giveData(values) : giveData(data)
     } catch (err) {
       toast.error("Internal Error", { theme: "colored" });
-      console.log(err)
       if (err?.message == "Unauthorized") {
         navigate("/");
       }
@@ -82,7 +80,6 @@ const Hospitality = () => {
         setShow(false)
     }
     localStorage.setItem("rooms",JSON.stringify(rooms))
-    console.log(rooms)
   
   }
   const handleChange = (e) => {

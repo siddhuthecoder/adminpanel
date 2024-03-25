@@ -16,7 +16,7 @@ const Register = () => {
   });
   const restrictInput = (e)=> {
     const inputValue = e.target.value;
-    var reg = /[^\w\d]/g;
+    var reg = /[^\w\d\s\@]/g;
     const sanitizedValue = inputValue.replace(reg, '');
     "".replace()
     e.target.value = sanitizedValue;
