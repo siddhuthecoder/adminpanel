@@ -131,7 +131,7 @@ const Edit = () => {
     }else{
     try {
       const response2 = await axios.put(
-        `${import.meta.env.VITE_API}/events/edit-event/${id}`,
+        `${import.meta.env.VITE_API}/events/edit/${id}`,
         edit,
         {
           headers: {

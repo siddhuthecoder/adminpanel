@@ -70,7 +70,7 @@ const AddNotification = () => {
     }else{
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API}/notifications/create/new`,
+        `${import.meta.env.VITE_API}/notifications/new`,
         notice,
         {
           headers: {

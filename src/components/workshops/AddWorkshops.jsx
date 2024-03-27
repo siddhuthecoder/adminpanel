@@ -96,7 +96,7 @@ const AddWorkshops = () => {
     } else {
       try {
         const response2 = await axios.post(
-          `${import.meta.env.VITE_API}/workshops/new`,
+          `${import.meta.env.VITE_API}/workshops/create/new`,
           edit,
           {
             headers: {

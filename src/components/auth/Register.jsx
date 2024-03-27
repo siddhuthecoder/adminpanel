@@ -66,6 +66,7 @@ const Register = () => {
           },
         }
       );
+      console.log(response)
         setValid(true);
         setValues({
           username: "",
@@ -74,6 +75,7 @@ const Register = () => {
         })
     } catch (err) {
       setValid(false);
+      console.log(err)
       if(err?.message=="Unauthorized" || err.response.status == 401){
         toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
