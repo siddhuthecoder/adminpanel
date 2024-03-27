@@ -35,7 +35,7 @@ const PdfViewer = () => {
         setPdfUrl(pdfUrl);
         setLoading(false); // Set loading to false when fetching finishes
       } catch (error) {
-        console.error("Error:", error);
+      
         setError("Failed to fetch PDF file");
         setLoading(false); // Set loading to false when an error occurs
       }

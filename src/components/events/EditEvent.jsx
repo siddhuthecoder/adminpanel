@@ -69,7 +69,7 @@ const Edit = () => {
       setEveInfo(responseData.data);
       setLoading(false);
     } catch (err) {
-      if(err?.message=="Unauthorized" || err.response.status == 401){
+      if(err?.message=="Unauthorized" || err?.response?.status == 401){
         toast.error("Please Login Again",{theme:"colored"})
         navigate("/")
       }else{

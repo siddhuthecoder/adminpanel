@@ -90,7 +90,6 @@ const Dashboard = () => {
         }
 
         const user = response.data.users;
-        console.log(user.length);
         var _rgukt = rgukt;
         var _dep = dep;
         var _year = year
@@ -149,7 +148,6 @@ const Dashboard = () => {
         setLoading(false);
       } catch (err) {
         toast.error("Internal Error", { theme: "colored" });
-        console.log(err);
         if (err?.message == "Unauthorized") {
           navigate("/");
         }
@@ -159,8 +157,6 @@ const Dashboard = () => {
 
     fetchData();
   }, [token]); // Use userInfo.token instead of userToken
-  console.log(pgnCount, rgukt, dep);
-  console.log(pgnData);
   const handlePgn = (data, num) => {
     var _user = [];
     var c = 1;
@@ -195,7 +191,6 @@ const Dashboard = () => {
     { name: "E-3 Registrations", count: year.e3.count },
     { name: "E-4 Registrations", count: year.e4.count },
   ];
-  console.log(clientsData);
   return (
     <>
       {loading ? (

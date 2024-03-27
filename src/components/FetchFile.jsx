@@ -24,7 +24,6 @@ const PdfViewer = () => {
       const pdfUrl = URL.createObjectURL(pdfBlob);
       setPdfUrl(pdfUrl);
     } catch (error) {
-      console.error("Error:", error);
       setError("Failed to fetch PDF file");
     }
   };

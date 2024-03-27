@@ -19,7 +19,7 @@ const Documentation = () => {
     const fetchData = async () => {
       try {
         const getToken = localStorage.getItem("token");
-        console.log("Token:", getToken); // Log token for debugging
+    
         setToken(getToken);
   
         const result = await axios.get("http://localhost:8080/admin/client/all-clients", {
@@ -28,7 +28,6 @@ const Documentation = () => {
             'Authorization': `${token}`
           }
         });
-        console.log("Response:", result.data); 
   
         if (result.status !== 200) {
           throw new Error('Network response was not ok');
@@ -61,7 +60,7 @@ const Documentation = () => {
     formData.append('title', resourceData.title);
     formData.append('user_email', resourceData.sendTo);
     formData.append('pdf_file', resourceData.file);
-    console.log(formData)
+
 
     try{
       
@@ -72,7 +71,7 @@ const Documentation = () => {
       })
       if(response.status==200){
         alert('Request successfully sent');
-        console.log(response.data)
+  
         window.location.reload(); 
       }
     }
