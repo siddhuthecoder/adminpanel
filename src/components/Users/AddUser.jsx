@@ -34,9 +34,9 @@ const AddUser = () => {
     e.target.value = sanitizedValue;
   }
   const handleFileInputChange = (file) => {
-    if (parseInt(file.size) > 100) {
+    if (parseInt(file.size) > 70) {
       setSize(true);
-      toast.error("Image should be less than 100KB", { theme: "colored" });
+      toast.error("Image should be less than 70KB", { theme: "colored" });
     } else {
       setClientData({ ...clientData, img: `${file.base64}` });
       setSize(false);
@@ -94,7 +94,7 @@ const AddUser = () => {
     e.preventDefault();
     setIsSubmit(true);
     if (size) {
-      toast.error("Image should be less than 100KB", { theme: "colored" });
+      toast.error("Image should be less than 70KB", { theme: "colored" });
     } else {
       try {
         const response = await axios.post(
@@ -320,7 +320,7 @@ const AddUser = () => {
         <span className="mt-3">
           <label htmlFor="name" className="ps-2">
             {" "}
-            None RGUKT Students ID Photo {"(<100KB)"}
+            None RGUKT Students ID Photo {"(<70KB)"}
           </label>
           <FileBase64 multiple={false} onDone={handleFileInputChange} />
         </span>

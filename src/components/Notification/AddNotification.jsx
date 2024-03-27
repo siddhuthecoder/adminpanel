@@ -32,9 +32,9 @@ const AddNotification = () => {
     setNotice({...notice,info:ele})
   }
   const handleFileInputChange = (file) => {
-      if(parseInt(file.size)>100){
+      if(parseInt(file.size)>70){
         setSize(true)
-        toast.error("File size should less than 100KB",{theme:"colored"})
+        toast.error("File size should less than 70KB",{theme:"colored"})
       }else{
         setSize(false);
         setNotice({...notice,picturePath: `${file.base64}`});
@@ -66,7 +66,7 @@ const AddNotification = () => {
     e.preventDefault();
     setIsSubmit(true);
     if(size){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
+      toast.error("Image should be less than 70KB",{theme:"colored"})
     }else{
     try {
       const response = await axios.post(
@@ -158,7 +158,7 @@ const AddNotification = () => {
 
           <span className="mt-3">
             <label htmlFor="link" className="ps-2">
-              Image (optional) {"<"} 100KB
+              Image (optional) {"<"} 70KB
             </label>
             <FileBase64 multiple={false} onDone={handleFileInputChange} />
           </span>

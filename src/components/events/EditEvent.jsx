@@ -42,9 +42,9 @@ const Edit = () => {
   const setPrize = (ele) => setEdit({ ...edit, prizeMoney: ele });
   const setTime = (ele) => setEdit({ ...edit, timeline: ele });
   const handleFileInputChange = (file) => {
-    if(parseInt(file.size)>100){
+    if(parseInt(file.size)>70){
       setSize(true)
-      toast.error("Image should be less than 100KB",{theme:"colored"})
+      toast.error("Image should be less than 70KB",{theme:"colored"})
     }else{
     setEdit({...edit,img: `${file.base64}`});
     setIsChange("Changed")
@@ -127,7 +127,7 @@ const Edit = () => {
     e.preventDefault();
     setIsSubmit(true);
     if(size){
-      toast.error("Image should be less than 100KB",{theme:"colored"})
+      toast.error("Image should be less than 70KB",{theme:"colored"})
     }else{
     try {
       const response2 = await axios.put(
@@ -233,7 +233,7 @@ const Edit = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Event Image {"(<100KB)"}
+                Event Image {"(<70KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{color:"white"}}>

@@ -25,8 +25,8 @@ const EditNotification = ({ data }) => {
     e.target.value = sanitizedValue;
   };
   const handleFileInputChange = (file) => {
-    if (parseInt(file.size) > 100) {
-      toast.error("Image should be less than 100KB", { theme: "colored" });
+    if (parseInt(file.size) > 70) {
+      toast.error("Image should be less than 70KB", { theme: "colored" });
       setSize(true);
     } else {
       setEdit({ ...edit, picturePath: `${file.base64}` });
@@ -61,7 +61,7 @@ const EditNotification = ({ data }) => {
     setIsSubmit(true);
 
     if (size) {
-      toast.error("Image should be less than 100KB", { theme: "colored" });
+      toast.error("Image should be less than 70KB", { theme: "colored" });
     } else {
       try {
         const response2 = await axios.put(
@@ -170,7 +170,7 @@ const EditNotification = ({ data }) => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Image {"(<100KB)"}
+                Image {"(<70KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{ color: "white" }}>{isChange}</p>
