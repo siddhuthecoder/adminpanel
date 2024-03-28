@@ -23,6 +23,7 @@ const AddUser = () => {
     state: "",
     tzkid: "",
     year: "",
+    amountPaid:"",
     mode: "offline_mode",
   });
   const [isSubmit, setIsSubmit] = useState(false);
@@ -84,6 +85,9 @@ const AddUser = () => {
       case "branch":
         setClientData({ ...clientData, branch: value });
         break;
+        case "amountPaid":
+          setClientData({ ...clientData, amountPaid: value });
+          break;
 
       default:
         break;
@@ -123,6 +127,7 @@ const AddUser = () => {
           regWorkshop: [],
           state: "",
           tzkid: "",
+          amountPaid:"",
           year: "",
         });
         toast.success("successfully Added New User", {
@@ -401,6 +406,28 @@ const AddUser = () => {
             name="phno"
             placeholder="Enter Contact"
             value={clientData.phno}
+            onChange={handleChange}
+            required
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "#ffffff",
+              padding: "8px",
+              borderRadius: "4px",
+              border: "none",
+            }}
+          />
+        </span>
+        
+        <span className="mt-3">
+          <label htmlFor="amountPaid" className="ps-2">
+            Amount Paid
+          </label>
+          <input
+            type="text"
+            name="amountPaid"
+            placeholder="Enter Amount Paid"
+            value={clientData.amountPaid}
+            onBeforeInput={restrictInput}
             onChange={handleChange}
             required
             style={{

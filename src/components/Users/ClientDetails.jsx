@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { MdEventAvailable, MdGroups, MdKeyboardBackspace } from "react-icons/md";
 import logo from "../../assets/logo.png";
 import { PiIdentificationBadgeFill } from "react-icons/pi";
+import { GiTakeMyMoney } from "react-icons/gi";
 import {
   FaRegUser,
   FaEnvelope,
@@ -138,6 +139,11 @@ const ClientDetails = () => {
         title: "Year",
         icon: <MdGroups />,
         value: `${clientData.year} `,
+      },
+      {
+        title: "Amount Paid",
+        icon: <GiTakeMyMoney />,
+        value: `${clientData.amountPaid}`,
       },
       {
         title: "Referrals",
