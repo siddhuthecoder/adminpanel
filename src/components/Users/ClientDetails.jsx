@@ -163,9 +163,8 @@ const ClientDetails = () => {
       {
         title: "Student ID Image",
         icon: <PiIdentificationBadgeFill />,
-        value: `${clientData?.img}`,
-      },
-              
+        value: `${clientData?.idUpload}`,
+      },          
   ];
 
   const DetailsClient = () => {

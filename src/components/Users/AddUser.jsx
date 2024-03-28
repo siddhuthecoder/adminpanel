@@ -14,7 +14,7 @@ const AddUser = () => {
     district: "",
     email: "",
     firstName: "",
-    img: "",
+    idUpload: "",
     lastName: "",
     phno: "",
     refreals: [],
@@ -39,7 +39,7 @@ const AddUser = () => {
       setSize(true);
       toast.error("Image should be less than 70KB", { theme: "colored" });
     } else {
-      setClientData({ ...clientData, img: `${file.base64}` });
+      setClientData({ ...clientData, idUpload: `${file.base64}` });
       setSize(false);
     }
   };
@@ -119,7 +119,7 @@ const AddUser = () => {
           district: "",
           email: "",
           firstName: "",
-          img: "",
+          idUpload: "",
           lastName: "",
           phno: "",
           refreals: [],
