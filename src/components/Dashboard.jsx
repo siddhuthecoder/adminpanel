@@ -294,7 +294,7 @@ const Dashboard = () => {
                     className="d-flex text-center justify-content-around bg-dark text-white align-items-center  mb-2  py-1 shadow"
                     style={{ width: "100%", minWidth: "950px", height: "50px" }}
                   >
-                    <div className="" style={{width:"200px"}}>S.no</div>
+                    <div className="" style={{width:"150px"}}>S.no</div>
                     <div
                       className="d-flex text-center align-items-center"
                       style={{ minWidth: "300px" }}
@@ -321,9 +321,15 @@ const Dashboard = () => {
                     </div>
                     <div
                       className="d-flex align-items-center"
-                      style={{ minWidth: "300px" }}
+                      style={{ minWidth: "175px" }}
                     >
                       Year
+                    </div>
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "175px" }}
+                    >
+                      Amount Paid
                     </div>
                     <div
                       className="d-flex align-items-center"
@@ -370,7 +376,7 @@ const Dashboard = () => {
                     >
                       <div
                         className="align-items-center"
-                        style={{ minWidth: "200px" }}
+                        style={{ minWidth: "150px" }}
                       >
                         {pgnCount + index + 1}
                       </div>
@@ -401,10 +407,16 @@ const Dashboard = () => {
                       </div>
                       <div
                         className="d-flex align-items-center"
-                        style={{ minWidth: "300px" }}
+                        style={{ minWidth: "175px" }}
                       >
                         {data.year}
                       </div>
+                      <div
+                      className="d-flex align-items-center"
+                      style={{ minWidth: "175px" }}
+                    >
+                      {data.amountPaid}
+                    </div>
                       <div
                         className="d-flex align-items-center"
                         style={{ minWidth: "350px" }}
