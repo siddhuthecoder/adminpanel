@@ -47,7 +47,7 @@ const Dashboard = () => {
       : client.tzkid.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const [rgukt, setRgukt] = useState({
-    rguktn: { count: 0 },
+    rguktn: { count: -5 },
     rguktong: { count: 0 },
     rguktsklm: { count: 0 },
     rguktrkv: { count: 0 },
@@ -63,7 +63,7 @@ const Dashboard = () => {
   });
   const [dep, setDep] = useState({
     puc: { count: 0 },
-    cse: { count: 0 },
+    cse: { count: -5 },
     ece: { count: 0 },
     eee: { count: 0 },
     mme: { count: 0 },
@@ -93,8 +93,8 @@ const Dashboard = () => {
         var _rgukt = rgukt;
         var _dep = dep;
         var _year = year
-        user.map((item) => {
-          const mail = item?.email?.split("@")[1].split(".")[0];
+        user?.map((item) => {
+          const mail = item?.email?.split("@")[1]?.split(".")[0];
           const branch = item?.branch;
           const batch = item?.year
           if (mail == "rguktn") {
@@ -171,7 +171,7 @@ const Dashboard = () => {
   useEffect(() => {}, []);
 
   const tabs = [
-    { name: "Total Registrations", count: clientsData.length },
+    { name: "Total Registrations", count: clientsData.length - 5 },
     { name: "RGUKT Nzd", count: rgukt.rguktn.count },
     { name: "RGUKT ONG", count: rgukt.rguktong.count },
     { name: "RGUKT RKV", count: rgukt.rguktrkv.count },
