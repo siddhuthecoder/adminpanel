@@ -47,7 +47,7 @@ const Dashboard = () => {
       : client.tzkid.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const [rgukt, setRgukt] = useState({
-    rguktn: { count: -5 },
+    rguktn: { count: -2 },
     rguktong: { count: 0 },
     rguktsklm: { count: 0 },
     rguktrkv: { count: 0 },
@@ -56,14 +56,14 @@ const Dashboard = () => {
   const [year, setYear] = useState({
     p1: { count: 0 },
     p2: { count: 0 },
-    e1: { count: 0 },
-    e2: { count: 0 },
+    e1: { count: -1 },
+    e2: { count: -3 },
     e3: { count: 0 },
     e4: { count: 0 },
   });
   const [dep, setDep] = useState({
     puc: { count: 0 },
-    cse: { count: -5 },
+    cse: { count: -4 },
     ece: { count: 0 },
     eee: { count: 0 },
     mme: { count: 0 },
@@ -171,7 +171,7 @@ const Dashboard = () => {
   useEffect(() => {}, []);
 
   const tabs = [
-    { name: "Total Registrations", count: clientsData.length - 5 },
+    { name: "Total Registrations", count: clientsData.length - 4 },
     { name: "RGUKT Nzd", count: rgukt.rguktn.count },
     { name: "RGUKT ONG", count: rgukt.rguktong.count },
     { name: "RGUKT RKV", count: rgukt.rguktrkv.count },
