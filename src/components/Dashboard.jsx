@@ -176,6 +176,7 @@ const Dashboard = () => {
     { name: "RGUKT ONG", count: rgukt.rguktong.count },
     { name: "RGUKT RKV", count: rgukt.rguktrkv.count },
     { name: "RGUKT SKLM", count: rgukt.rguktsklm.count },
+    { name: "OTHER CLG", count: rgukt.others.count },
     { name: "PUC Registrations", count: dep.puc.count },
     { name: "CSE Registrations", count: dep.cse.count },
     { name: "ECE Registrations", count: dep.ece.count },

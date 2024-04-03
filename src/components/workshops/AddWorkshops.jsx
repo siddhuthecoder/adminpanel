@@ -31,8 +31,8 @@ const AddWorkshops = () => {
   const setStruct = (ele) => setEdit({ ...edit, structure: ele });
   const setContact = (ele) => setEdit({ ...edit, contact: ele });
   const handleFileInputChange1 = (file) => {
-    if (parseInt(file.size) > 70) {
-      toast.error("Image should be less than 70KB", { theme: "colored" });
+    if (parseInt(file.size) > 20) {
+      toast.error("Image should be less than 20KB", { theme: "colored" });
       setSize1(true);
     } else {
       setSize1(false);
@@ -40,9 +40,9 @@ const AddWorkshops = () => {
     }
   };
   const handleFileInputChange = (file) => {
-    if (parseInt(file.size) > 70) {
+    if (parseInt(file.size) > 50) {
       setSize(true);
-      toast.error("Image should be less than 70KB", { theme: "colored" });
+      toast.error("Image should be less than 50KB", { theme: "colored" });
     } else {
       setSize(false);
       setEdit({ ...edit, workshopImg: `${file.base64}` });
@@ -90,9 +90,9 @@ const AddWorkshops = () => {
     e.preventDefault();
     setIsSubmit(true);
     if (size) {
-      toast.error("Image should be less than 70KB", { theme: "colored" });
+      toast.error("Image should be less than 50KB", { theme: "colored" });
     } else if (size1) {
-      toast.error("Image Should be less than 70KB", { theme: "colored" });
+      toast.error("Image Should be less than 20KB", { theme: "colored" });
     } else {
       try {
         const response2 = await axios.post(
@@ -217,7 +217,7 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Workshop Image {"(<70KB)"}
+                Workshop Image {"(<50KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange} />
               <p style={{ color: "white" }}>
@@ -330,7 +330,7 @@ const AddWorkshops = () => {
                 className="ps-2 form-label"
                 style={{ color: "#006996", fontWeight: "700" }}
               >
-                Instructor Image {"(<70KB)"}
+                Instructor Image {"(<20KB)"}
               </label>
               <FileBase64 multiple={false} onDone={handleFileInputChange1} />
               <p style={{ color: "white" }}>
