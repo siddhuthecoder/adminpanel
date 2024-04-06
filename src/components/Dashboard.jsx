@@ -7,10 +7,13 @@ import { toast } from "react-toastify";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 
 const Dashboard = () => {
   const { token } = useContext(context);
   const navigate = useNavigate();
+  const [temp, setTemp] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,9 +37,16 @@ const Dashboard = () => {
       return textA.localeCompare(textB);
     });
   };
-
-  const sortedClients = sortClientsByName(pgnData);
-
+  let sortedClients = [];
+  if (searchQuery == "") {
+    sortedClients = [];
+    const dat = sortClientsByName(pgnData);
+    dat?.map((ele) => sortedClients.push(ele));
+  } else {
+    sortedClients = [];
+    const dat = sortClientsByName(clientsData);
+    dat?.map((ele) => sortedClients.push(ele));
+  }
   const filteredClients = sortedClients.filter((client) =>
     search == "name"
       ? client.firstName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -44,10 +54,14 @@ const Dashboard = () => {
       ? client.tzkid.toLowerCase().includes(searchQuery.toLowerCase())
       : search == "collegeId"
       ? client.collegeId.toLowerCase().includes(searchQuery.toLowerCase())
+      : search == "email"
+      ? client.email.toLowerCase().includes(searchQuery.toLowerCase())
+      :search == "phno"
+      ? client.phno.toLowerCase().includes(searchQuery.toLowerCase())
       : client.tzkid.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const [rgukt, setRgukt] = useState({
-    rguktn: { count: -2 },
+    rguktn: { count: 0 },
     rguktong: { count: 0 },
     rguktsklm: { count: 0 },
     rguktrkv: { count: 0 },
@@ -56,14 +70,14 @@ const Dashboard = () => {
   const [year, setYear] = useState({
     p1: { count: 0 },
     p2: { count: 0 },
-    e1: { count: -1 },
-    e2: { count: -3 },
+    e1: { count: 0 },
+    e2: { count: 0 },
     e3: { count: 0 },
     e4: { count: 0 },
   });
   const [dep, setDep] = useState({
     puc: { count: 0 },
-    cse: { count: -4 },
+    cse: { count: 0 },
     ece: { count: 0 },
     eee: { count: 0 },
     mme: { count: 0 },
@@ -92,11 +106,11 @@ const Dashboard = () => {
         const user = response.data.users;
         var _rgukt = rgukt;
         var _dep = dep;
-        var _year = year
+        var _year = year;
         user?.map((item) => {
           const mail = item?.email?.split("@")[1]?.split(".")[0];
           const branch = item?.branch;
-          const batch = item?.year
+          const batch = item?.year;
           if (mail == "rguktn") {
             _rgukt.rguktn.count += 1;
           } else if (mail == "rguktong") {
@@ -108,18 +122,18 @@ const Dashboard = () => {
           } else {
             _rgukt.others.count += 1;
           }
-          if(batch == "PUC-1"){
-            _year.p1.count+=1
-          }else if(batch=="PUC-2"){
-            _year.p2.count+=1
-          }else if(batch=="E1"){
-            _year.e1.count+=1
-          }else if(batch=="E2"){
-            _year.e2.count+=1
-          }else if(batch=="E3"){
-            _year.e3.count+=1
-          }else if(batch=="E4"){
-            _year.e4.count+=1
+          if (batch == "PUC-1") {
+            _year.p1.count += 1;
+          } else if (batch == "PUC-2") {
+            _year.p2.count += 1;
+          } else if (batch == "E1") {
+            _year.e1.count += 1;
+          } else if (batch == "E2") {
+            _year.e2.count += 1;
+          } else if (batch == "E3") {
+            _year.e3.count += 1;
+          } else if (batch == "E4") {
+            _year.e4.count += 1;
           }
           if (branch == "PUC") {
             _dep.puc.count += 1;
@@ -141,7 +155,7 @@ const Dashboard = () => {
         });
         setRgukt(_rgukt);
         setDep(_dep);
-        setYear(_year)
+        setYear(_year);
         setTot(user.length);
         setClientsData(user);
         handlePgn(user, pgnCount);
@@ -169,7 +183,44 @@ const Dashboard = () => {
     setPgnData(_user);
   };
   useEffect(() => {}, []);
+  const exportToExcel = () => {
+    const maxLength = 32767; // Maximum length allowed for Excel cells
+    const truncatedClientsData = clientsData.map((client) => ({
+      tzkid: client.tzkid,
+      email: client.email,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      college: client.college,
+      phno: client.phno,
+      year: client.year,
+      branch: client.branch,
+      collegeId: client.collegeId,
+      amountPaid: client.amountPaid,
+      gender: client.gender,
+      state: client.state,
+      district: client.district,
+      city: client.city,
+      mode: client.mode,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
+      referredBy: client.referredBy,
+      rezorpay_order_id: client.rezorpay_order_id,
+      refreals: client.refreals?.join(","),
+      regEvents: client.regEvents.join(","),
+      regWorkshop: client.regWorkshop.join(",")
+    }));
 
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(truncatedClientsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Users Data");
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+    const finalData = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    saveAs(finalData, "Users_Data.xlsx");
+  };
   const tabs = [
     { name: "Total Registrations", count: clientsData.length - 4 },
     { name: "RGUKT Nzd", count: rgukt.rguktn.count },
@@ -258,7 +309,11 @@ const Dashboard = () => {
                   placeholder="search......."
                   className="py-1 ps-4"
                   style={{ borderRadius: "5px", border: "0.3px solid grey" }}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    e.target.value == "" ? setPgnCount(temp) : setPgnCount(0);
+                    setTemp(pgnCount);
+                  }}
                 />
               </div>
               <select
@@ -273,6 +328,8 @@ const Dashboard = () => {
                 <option value="tzkid">Teckzite ID</option>
                 <option value="name">Name</option>
                 <option value="collegeId">College ID</option>
+                <option value="email">Email</option>
+                <option value="phno">Contact</option>
               </select>
             </div>
             <div
@@ -295,7 +352,9 @@ const Dashboard = () => {
                     className="d-flex text-center justify-content-around bg-dark text-white align-items-center  mb-2  py-1 shadow"
                     style={{ width: "100%", minWidth: "950px", height: "50px" }}
                   >
-                    <div className="" style={{width:"150px"}}>S.no</div>
+                    <div className="" style={{ width: "150px" }}>
+                      S.no
+                    </div>
                     <div
                       className="d-flex text-center align-items-center"
                       style={{ minWidth: "300px" }}
@@ -413,11 +472,11 @@ const Dashboard = () => {
                         {data.year}
                       </div>
                       <div
-                      className="d-flex align-items-center"
-                      style={{ minWidth: "175px" }}
-                    >
-                      {data.amountPaid}
-                    </div>
+                        className="d-flex align-items-center"
+                        style={{ minWidth: "175px" }}
+                      >
+                        {data.amountPaid}
+                      </div>
                       <div
                         className="d-flex align-items-center"
                         style={{ minWidth: "350px" }}
@@ -473,6 +532,13 @@ const Dashboard = () => {
                 <IoIosArrowBack />
               </button>
             )}
+            <button
+              type="button"
+              onClick={exportToExcel}
+              className="btn mx-2 btn-primary"
+            >
+              Download XLSX
+            </button>
           </div>
         </section>
       )}
