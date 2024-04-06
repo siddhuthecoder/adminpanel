@@ -9,6 +9,7 @@ const Tabs = [
       { tab: "events", tabName: "Events" },
       { tab: "register", tabName: "Register" },
       { tab: "Hospitality", tabName: "Hospitality" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {
@@ -21,18 +22,21 @@ const Tabs = [
       { tab: "events", tabName: "Events" },
       { tab: "register", tabName: "Register" },
       { tab: "Hospitality", tabName: "Hospitality" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {
     role: "EventCoordinator",
     tabs: [
       { tab: "events", tabName: "Events" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {
     role: "WorkshopCoordinator",
     tabs: [
       { tab: "workshops", tabName: "Workshop" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {

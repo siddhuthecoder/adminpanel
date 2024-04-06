@@ -58,6 +58,10 @@ const Dashboard = () => {
       ? client.email.toLowerCase().includes(searchQuery.toLowerCase())
       :search == "phno"
       ? client.phno.toLowerCase().includes(searchQuery.toLowerCase())
+      : search == "branch"
+      ? client.branch.toLowerCase().includes(searchQuery.toLowerCase())
+      : search == "year"
+      ? client.year.toLowerCase().includes(searchQuery.toLowerCase())
       : client.tzkid.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const [rgukt, setRgukt] = useState({
@@ -149,7 +153,7 @@ const Dashboard = () => {
             _dep.mech.count += 1;
           } else if (branch == "CIVIL") {
             _dep.civil.count += 1;
-          } else if (branch == "CECH") {
+          } else if (branch == "CHEM") {
             _dep.chem.count += 1;
           }
         });
@@ -330,6 +334,8 @@ const Dashboard = () => {
                 <option value="collegeId">College ID</option>
                 <option value="email">Email</option>
                 <option value="phno">Contact</option>
+                <option value="branch">Branch</option>
+                <option value="year">Year</option>
               </select>
             </div>
             <div

@@ -17,6 +17,7 @@ import NotificationList from "../components/Notification/NotificationList";
 import Register from "../components/auth/Register";
 import { context } from "../App";
 import Hospitality from "../components/Hospitality/Hospitality";
+import NotRegister from "../components/NotRegistered/NotRegister";
 
 const Home = () => {
   const {role,admin} = useContext(context);
@@ -289,6 +290,7 @@ const Home = () => {
             {tab === "workshops" && <WorkShopsList />}
             {tab === "register" && <Register />}
             {tab === "Hospitality" && <Hospitality />}
+            {tab === "NotRegister" && <NotRegister />}
           </div>
         </div>
       </section>
