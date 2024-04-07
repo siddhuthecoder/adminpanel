@@ -43,12 +43,14 @@ const Tabs = [
     role: "NotificationManager",
     tabs: [
       { tab: "Notification", tabName: "Notification" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {
     role: "RegistrationManager",
     tabs: [
       { tab: "users", tabName: "Users" },
+      { tab: "NotRegister", tabName: "Not Registered" },
     ],
   },
   {
