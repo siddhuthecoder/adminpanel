@@ -56,7 +56,7 @@ const Dashboard = () => {
       ? client.collegeId.toLowerCase().includes(searchQuery.toLowerCase())
       : search == "email"
       ? client.email.toLowerCase().includes(searchQuery.toLowerCase())
-      :search == "phno"
+      : search == "phno"
       ? client.phno.toLowerCase().includes(searchQuery.toLowerCase())
       : search == "branch"
       ? client.branch.toLowerCase().includes(searchQuery.toLowerCase())
@@ -89,6 +89,12 @@ const Dashboard = () => {
     civil: { count: 0 },
     chem: { count: 0 },
   });
+  const [ece, setEce] = useState({
+    e1: { count: 0 },
+    e2: { count: 0 },
+    e3: { count: 0 },
+    e4: { count: 0 },
+  });
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -111,12 +117,38 @@ const Dashboard = () => {
         var _rgukt = rgukt;
         var _dep = dep;
         var _year = year;
+        var _ece = ece;
         user?.map((item) => {
           const mail = item?.email?.split("@")[1]?.split(".")[0];
           const branch = item?.branch;
           const batch = item?.year;
           if (mail == "rguktn") {
             _rgukt.rguktn.count += 1;
+            switch (item?.year) {
+              case "E1":
+                if (item?.branch == "ECE") {
+                  _ece.e1.count += 1;
+                }
+                break;
+              case "E2":
+                if (item?.branch == "ECE") {
+                  _ece.e2.count += 1;
+                }
+                break;
+              case "E3":
+                if (item?.branch == "ECE") {
+                  _ece.e3.count += 1;
+                }
+                break;
+              case "E4":
+                if (item?.branch == "ECE") {
+                  _ece.e4.count += 1;
+                }
+                break;
+
+              default:
+                break;
+            }
           } else if (mail == "rguktong") {
             _rgukt.rguktong.count += 1;
           } else if (mail == "rguktsklm") {
@@ -160,6 +192,7 @@ const Dashboard = () => {
         setRgukt(_rgukt);
         setDep(_dep);
         setYear(_year);
+        setEce(_ece);
         setTot(user.length);
         setClientsData(user);
         handlePgn(user, pgnCount);
@@ -211,7 +244,7 @@ const Dashboard = () => {
       rezorpay_order_id: client.rezorpay_order_id,
       refreals: client.refreals?.join(","),
       regEvents: client.regEvents.join(","),
-      regWorkshop: client.regWorkshop.join(",")
+      regWorkshop: client.regWorkshop.join(","),
     }));
 
     const wb = XLSX.utils.book_new();
@@ -246,6 +279,10 @@ const Dashboard = () => {
     { name: "E-2 Registrations", count: year.e2.count },
     { name: "E-3 Registrations", count: year.e3.count },
     { name: "E-4 Registrations", count: year.e4.count },
+    { name: "E-1 ECE Reg", count: ece.e1.count },
+    { name: "E-2 ECE Reg", count: ece.e2.count },
+    { name: "E-3 ECE Reg", count: ece.e3.count },
+    { name: "E-4 ECE Reg", count: ece.e4.count }
   ];
   return (
     <>

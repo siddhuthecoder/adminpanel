@@ -134,6 +134,7 @@ const AddUser = () => {
           theme: "colored",
         });
       } catch (err) {
+        console.log(err)
         toast.error("Failed to Add new User", { theme: "colored" });
         if (err?.message == "Unauthorized") {
           navigate("/");
