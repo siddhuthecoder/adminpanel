@@ -9,87 +9,67 @@ const Hospitality = () => {
     tzkid: "",
     gender: "",
   });
-  const [check,setCheck] = useState(true)
-  const {token} = useContext(context)
-  const navigate = useNavigate()
-  const [show,setShow] = useState(false)
-  const [isSubmit,setIsSubmit] = useState(false)
-  const [alloc,setAlloc] = useState("")
-  const [rooms,setRooms] = useState({male:[{roomNo:"I2 - SF - 60B",count:0},{roomNo:"I2 - SF - 61B",count:0},{roomNo:"I2 - SF - 62B",count:0},{roomNo:"I2 - SF - 63B",count:0}],female:[{roomNo:"K2 - SF - 60B",count:0},{roomNo:"K2 - SF - 61B",count:0},{roomNo:"K2 - SF - 62B",count:0},{roomNo:"K2 - SF - 63B",count:0}]})
-  useEffect(()=>{
-    const local = JSON.parse(localStorage.getItem("rooms"));
-    if(local){
-      setRooms(local)
-    }
-  },[])
+  const [check, setCheck] = useState(true);
+  const { token } = useContext(context);
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [alloc, setAlloc] = useState("");
+  
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsSubmit(true);
+
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API}/user/${values.tzkid}`,
+      const response2 = await axios.put(
+        `${import.meta.env.VITE_API}/room/new`,
+        values,
         {
           headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-          }
-      }
+            "Content-Type": "application/json",
+            Authorization: ` Bearer ${token}`,
+          },
+        }
       );
-      if (response.status !== 200) {
-        throw new Error("Network response was not ok");
-      }
-      
-      const data = response.data.user;
-      if(!data?.gender){
-        setShow(true)
-      }
-      show ? giveData(values) : giveData(data)
-    } catch (err) {
-      toast.error("Internal Error", { theme: "colored" });
-      if (err?.message == "Unauthorized") {
-        navigate("/");
+      setAlloc(response2.data.roomNumber)
+      toast.success("successfully Allocated", { theme: "colored" });
+    } catch (error) {
+      if (
+        error?.request?.response ==
+        `{"message":"Person already assigned to a room"}`
+      ) {
+        try {
+          const response2 = await axios.get(
+            `${import.meta.env.VITE_API}/room/${values.tzkid}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: ` Bearer ${token}`,
+              },
+            }
+          );
+          setAlloc(response2.data.roomNumber);
+        } catch (error) {}
+      } else {
+        if (error?.message == "Unauthorized" || error.response.status == 401) {
+          toast.error("Please Login Again", { theme: "colored" });
+          navigate("/");
+        } else {
+          toast.error("Failed to Modify", { theme: "colored" });
+        }
       }
     }
-    setIsSubmit(false)
+    setIsSubmit(false);
   };
-  const giveData = (data)=>{
-    const gender = data?.gender
-    if(gender=="male"){
-        var rom = rooms.male
-        for (var index = 0; index < rom.length; index++) {
-            if(rom[index].count <=5){
-                setAlloc(rom[index].roomNo);
-                rom[index].count+=1
-                break
-            }
-        }
-        setRooms({...rooms,male:rom})
-        setValues({tzkid:"",gender:""})
-        setShow(false)
-    }else if(gender=="female"){
-        var rom = rooms.female
-        for (var index = 0; index < rom.length; index++) {
-            if(rom[index].count <=5){
-                setAlloc(rom[index].roomNo);
-                rom[index].count+=1
-                break
-            }
-        }
-        setRooms({...rooms,male:rom})
-        setValues({tzkid:"",gender:""})
-        setShow(false)
-    }
-    localStorage.setItem("rooms",JSON.stringify(rooms))
-  
-  }
   const handleChange = (e) => {
     e.preventDefault();
-    setAlloc("")
+    setAlloc("");
     const { name, value } = e.target;
     switch (name) {
       case "tzkid":
-        setShow(false)
-        setCheck(true)
+        setShow(false);
+        setCheck(true);
         setValues({ ...values, tzkid: value });
         break;
       case "gender":
@@ -133,7 +113,7 @@ const Hospitality = () => {
             style={{ backgroundColor: "#555555", color: "#FFFFFF" }} // Dark input field
           />
         </span>
-        {show && <><span className="mt-3">
+        <span className="mt-3">
           <label htmlFor="role" className="ps-2">
             Gender
           </label>
@@ -148,7 +128,7 @@ const Hospitality = () => {
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-        </span></>}
+        </span>
         <span className="mt-3 w-100">
           <input
             onSubmit={handleSubmit}
@@ -159,9 +139,16 @@ const Hospitality = () => {
           />
         </span>
       </form>
-      {alloc && <><div className="text-center mt-5 h3 bold-2" style={{ color: "white" }}>
-        Allocated Room: {alloc}
-      </div></>}
+      {alloc && (
+        <>
+          <div
+            className="text-center mt-5 h3 bold-2"
+            style={{ color: "white" }}
+          >
+            Allocated Room: {alloc}
+          </div>
+        </>
+      )}
     </section>
   );
 };
