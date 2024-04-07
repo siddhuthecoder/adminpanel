@@ -226,7 +226,7 @@ const Dashboard = () => {
     saveAs(finalData, "Users_Data.xlsx");
   };
   const tabs = [
-    { name: "Total Registrations", count: clientsData.length - 4 },
+    { name: "Total Registrations", count: clientsData.length },
     { name: "RGUKT Nzd", count: rgukt.rguktn.count },
     { name: "RGUKT ONG", count: rgukt.rguktong.count },
     { name: "RGUKT RKV", count: rgukt.rguktrkv.count },
