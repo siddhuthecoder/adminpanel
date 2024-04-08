@@ -30,6 +30,7 @@ const Tabs = [
   {
     role: "EventCoordinator",
     tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "events", tabName: "Events" },
       { tab: "NotRegister", tabName: "Not Registered" },
       { tab: "Outsiders", tabName: "Outsiders" },
@@ -38,6 +39,7 @@ const Tabs = [
   {
     role: "WorkshopCoordinator",
     tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "workshops", tabName: "Workshop" },
       { tab: "NotRegister", tabName: "Not Registered" },
       { tab: "Outsiders", tabName: "Outsiders" },
@@ -46,6 +48,7 @@ const Tabs = [
   {
     role: "NotificationManager",
     tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "Notification", tabName: "Notification" },
       { tab: "NotRegister", tabName: "Not Registered" },
       { tab: "Outsiders", tabName: "Outsiders" },
@@ -54,6 +57,7 @@ const Tabs = [
   {
     role: "RegistrationManager",
     tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "users", tabName: "Users" },
       { tab: "NotRegister", tabName: "Not Registered" },
       { tab: "Outsiders", tabName: "Outsiders" },
@@ -62,6 +66,7 @@ const Tabs = [
   {
     role: "HospitalityManager",
     tabs: [
+      { tab: "dashboard", tabName: "Dashboard" },
       { tab: "Hospitality", tabName: "Hospitality" },
       { tab: "Outsiders", tabName: "Outsiders" },
     ],
