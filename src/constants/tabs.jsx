@@ -10,6 +10,7 @@ const Tabs = [
       { tab: "register", tabName: "Register" },
       { tab: "Hospitality", tabName: "Hospitality" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
@@ -23,6 +24,7 @@ const Tabs = [
       { tab: "register", tabName: "Register" },
       { tab: "Hospitality", tabName: "Hospitality" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
@@ -30,6 +32,7 @@ const Tabs = [
     tabs: [
       { tab: "events", tabName: "Events" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
@@ -37,6 +40,7 @@ const Tabs = [
     tabs: [
       { tab: "workshops", tabName: "Workshop" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
@@ -44,6 +48,7 @@ const Tabs = [
     tabs: [
       { tab: "Notification", tabName: "Notification" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
@@ -51,12 +56,14 @@ const Tabs = [
     tabs: [
       { tab: "users", tabName: "Users" },
       { tab: "NotRegister", tabName: "Not Registered" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   },
   {
     role: "HospitalityManager",
     tabs: [
       { tab: "Hospitality", tabName: "Hospitality" },
+      { tab: "Outsiders", tabName: "Outsiders" },
     ],
   }  
 ];

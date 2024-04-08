@@ -18,6 +18,7 @@ import Register from "../components/auth/Register";
 import { context } from "../App";
 import Hospitality from "../components/Hospitality/Hospitality";
 import NotRegister from "../components/NotRegistered/NotRegister";
+import OutSiders from "../components/OutSiders/OutSiders";
 
 const Home = () => {
   const {role,admin} = useContext(context);
@@ -291,6 +292,7 @@ const Home = () => {
             {tab === "register" && <Register />}
             {tab === "Hospitality" && <Hospitality />}
             {tab === "NotRegister" && <NotRegister />}
+            {tab === "Outsiders" && <OutSiders />}
           </div>
         </div>
       </section>
