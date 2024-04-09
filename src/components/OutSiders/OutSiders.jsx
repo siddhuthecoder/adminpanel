@@ -32,7 +32,7 @@ const OutSiders = () => {
         var _email = []
         user?.map((item) => {
           const mail = item?.email?.split("@")[1]?.split(".")[0];
-          if (mail != "rguktn" && mail != "rguktsklm" && mail != "rguktong" && mail != "rguktrkv") {
+          if (mail != "rguktn") {
             _user.push(item)
             _email.push(item?.email)
           }
