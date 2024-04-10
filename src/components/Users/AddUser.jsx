@@ -278,6 +278,7 @@ const AddUser = () => {
             <option value="CHEM">CHEM</option>
             <option value="CIVIL">CIVIL</option>
             <option value="MME">MME</option>
+            <option value="OTHERS">OTHERS</option>
           </select>
         </span>
         <span className="mt-3">
