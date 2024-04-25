@@ -52,6 +52,8 @@ const Login = () => {
     setIsSubmit(true)
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values);
+      console.log(`${import.meta.env.VITE_API}/admin/login`);
+      console.log(response)
 
       if (response.status === 200) {
         setToken(response.data.token);
