@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import '../../App.css';
-import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import CustomModal from '../modals/Modal';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { context } from '../../App';
+import '../../App.css';
+import CustomModal from '../modals/Modal';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ const Login = () => {
       window.location.reload()
       
       console.log(err)
-      alert(JSON.stringify(err))
+      
     }
     setIsSubmit(false)
   };
