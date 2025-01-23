@@ -51,7 +51,9 @@ const Login = () => {
     e.preventDefault();
     setIsSubmit(true)
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values);
+      const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values, {
+  httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+});
       console.log(`${import.meta.env.VITE_API}/admin/login`);
       console.log(response)
 
