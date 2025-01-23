@@ -1,0 +1,9 @@
+POST http://54.210.221.152:4001/admin/login
+
+Content-Type: 'application/json
+
+{
+    username: "siddhu",
+    password: "1234"
+
+}
