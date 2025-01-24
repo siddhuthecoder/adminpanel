@@ -51,9 +51,7 @@ const Login = () => {
     e.preventDefault();
     setIsSubmit(true)
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values, {
-  httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
-});
+      const response = await axios.post(`${import.meta.env.VITE_API}/admin/login`, values);
       console.log(`${import.meta.env.VITE_API}/admin/login`);
       console.log(response)
 
@@ -71,6 +69,7 @@ const Login = () => {
     } catch (err) {
       setValid(false)
       toast.error("Incorrect Credentials",{theme:"colored"})
+      window.location.reload()
       
       console.log(err)
       
