@@ -69,7 +69,6 @@ const Login = () => {
     } catch (err) {
       setValid(false)
       toast.error("Incorrect Credentials",{theme:"colored"})
-      window.location.reload()
       
       console.log(err)
       
